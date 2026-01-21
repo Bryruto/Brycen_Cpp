@@ -1,0 +1,604 @@
+                                                Brycen's c++ doc 
+
+cl name.cpp to compile cl *.cpp to compile all 
+.\name.exe to run 
+
+1 preprocessor statments / compiler
+2 variable
+3 functions 
+4 headers
+5 conditionals
+6 loops
+7 Array 
+8 enums / pods
+9 classes
+10 unions 
+11 methods
+12 access controls 
+13 constructor/destructor
+14 pointers 
+brycen's docs
+
+    cin cout namespace
+        std::cout << varint << std::endl;
+        // std -> is a namespace for iostream library
+        // :: -> means to go into
+        // cout -> is a object in the name space for displaying stuff to a screen
+        // << -> this is a overloaded function or insertion operater 
+        // endl -> is a function called a stream manipulator it will flush the buffer and move to a new line
+                flushing the buffer means write to screen right away
+        varint= 20;
+
+        std::cin.get();
+        //cin -> object to ask for input from keyboard
+    1 preprocessor statments / compiler
+
+        when running a c++ program
+            source code
+                ↓
+            preprocessor
+                ↓
+            compiler
+                ↓
+            assembler
+                ↓
+            linker
+                ↓
+            executable
+
+        preprocessor statements
+
+            all preprocessor statements start with '#'
+                <> - only use standard / system libraries system include paths only
+                "" - current file directory first then system include paths you can use this every time if 
+                    you like
+
+                #include 
+                    
+                    syntax = #include "file.h" or #include <library>
+                    all this means is to copy what is in the library and paste it in file 
+                #define 
+
+                    syntax = #define replace_this with_this
+                    
+                    #define INTERGER people
+                    now to make an int its not int its people 
+                    people some_people = 7; will make a int
+
+                    you cant use int until you take away the #define away
+                #if
+                    works like a conditional 
+                    #ifndef any_name - with not define already
+                        if not defined it what it means 
+                    #ifdef any_name
+                        if defined
+                    //anything under the these will be apart of the define behaivor 
+
+                    #endif - this will say you are done with if statement 
+
+        compiler:
+            the main job of the compiler is to convert all code into constent data or instuctions
+            this will make the real machine code the computer runs 
+
+            after you compile a cpp file you will get translation unit that are then converted to a object
+            obj file and and executable exe file
+    2 variable
+
+        variable allow you to name a peice of data you store in memory so that you can
+        the only real difference in variables is how big they are becuase c++ is weird
+
+        basic syntax
+            type name; this will make a varaiable that you can use in your code later
+            type name = value; this will make and set a value at that memory location
+            name = value;this is how you update an already made value 
+
+            //in c++ you can do this stuff in a lot of way but this is the main way
+
+        primitive data types
+
+            8 bits -> 1 byte
+
+            ints
+                unsigned -> to only get positive 
+
+                int -> 4 bytes  //-2b to 2b  
+                short -> 2 byte
+                long -> 4 bytes // 8 on mac and linux
+                long long -> 8 bytes
+
+                ex
+                    declaration 
+                        int a;
+                        short b;
+                        long c;
+                        long long d;
+
+                    initialization:
+                        int variable = 5;
+                        short variable = 1;
+                        long variable = 3;
+                        long long variable = 78;
+
+            float
+                float  -> 4 bytes
+                double -> 8 bytes
+                long double -> 8 - 16 bytes defined by compiler
+
+                ex
+                    declaraition:
+                        float b;
+                        double c;
+                        long double t;
+
+                    initialization:
+                        float variable = 5.5f; -> you have to add the f or its a double
+                        double var = 5.2; 
+
+            char 
+                this will go off of ascii values so 65 is A and so on
+
+                char -> 1 byte Ascii
+                char16_t -> 2 bytes UTF-16
+                char32_t -> 4 bytes UTF-32
+                wchar_t -> Unicode
+
+            bool
+                true or false 
+
+                bool -> 1 byte
+                
+                ex 
+                    bool isok = true;
+
+                operators 
+                    == this is asking if the value are equal so it compares every bit from each 
+                    < this is less than 
+                    > this is greater than
+                    <= this is less than or equal
+                    >= this is greater than or equal
+                    !,not this not so not true is false not false is true you can use the sign or the word not
+                    or,|| this is or so only 1 needs to be true for it to be true you can use the sign or the word or
+                    and,&& this is an and so both need to be true for a true sign or word and 
+
+            void
+    
+                void just means nothing this is made so there is no trash values  
+        
+        sizeof / size_t:
+            need #include <cstddef> to use size_t not really but you should have it if you do 
+            size_t - use for counting and size of stuff works better for all archatecters 
+
+                An unsigned integer type capable of representing the size of the largest possible object. 
+                is an int used to represent sizes and counts it can represent all vlid sizes
+
+                this is better becuase its what the system will convert your int value anyways after sizeof
+                
+                std::size_t n = 42;
+            sizeof
+                the size of function will convert your varaiable and give you the max space it may take 
+                up as a size_t varaiable which is just an unsigned int that is made to work better for 
+                memory stuff 
+        
+        strings
+            #include <string>
+            using std::string; // dont have to say std every time
+
+            for (char c : string)      // read characters
+            for (char& c : string)    // modify characters <- use this one
+
+            creating strings
+                string s5{"word"}          // best 
+                string s1;                 // empty
+                string s2 = "hello";       // from literal
+                string s3("world");        // constructor - dont use
+                string s4 = s2;            // copy
+            string functions:
+                size and length                   
+                    s.size();                  // number of characters
+                    s.length();                // same as size()
+                    s.empty();                 // true if size == 0 
+                    s.clear();                 // erase contens
+                indexing locations:
+                    s[0];                      //fast, no bounds check you will get errors
+                    s.at(0);                   //no errors just will not work if nothing there
+                    s.front();                 //first char
+                    s.back();                  //last char
+                adding:
+                    s+="!";                    //add to the end +=modify existing string + adds a new string
+                    s.append("world");         //add a substring to the end same as += 
+                    s.insert(index,string);    //adds at that index
+                    s.pushback('x');           //only add 1 char at a time
+                removing:
+                    s.pop_back();              //remove the last char
+                    s.earse(start,count=end)   //remove index for start and count is just that many over
+                    s.clear();                 //empty string
+                    s.replace(start,count,replacement); //from start count after start replace 
+                find char:
+                    s.find(value);             //find first char with the value
+                    s.rfind(value);            //find but reversed
+                substring use a lot
+                    s.substr(start,count);     //start then count over between will give you substring
+                conversion:
+                    std::sroi(string);         // string -> int
+                    std::to_string(int);       // int -> string
+                user input
+
+                    std::getline(std::cin, string_variable);  // read whole line <- best
+
+                    char c = std::cin.get();  // read ONE raw character
+
+                    std::cout << "Enter value: ";
+                    std::cin >> variable;
+                    // this is getting input but only 1 word so no spaces
+
+                    std::cin  >>  value;      // token input
+                    getline(cin, string);     // line input
+    3 functions
+        functions are used to increase readablity and decrease redundant code 
+
+        basic syntax
+    
+            return_type name(type name){actions}
+
+                ex
+                    int add(int a,int b){
+                        return a+b;
+                    }
+
+            all functions must have a return except void 
+
+        ex
+
+            example 1 basic
+
+                int Multiply(int a,int b){
+                    return a * b;
+                }
+
+                int main(){
+                    int result = Multiply(3,2)
+                    std::cout << result << std::endl;
+                }
+
+            example 2 many functions
+                
+                int Multiply(int a,int b){
+                    return a * b;
+                }
+
+                void MultiplyandLog(int a,int b){
+                    int result = a * b
+                    std::cout << result << std::endl;
+                }
+
+                int main(){
+                    MultiplyandLog(3,2)
+                    MultiplyandLog(5,8)
+                    MultiplyandLog(90,45)
+                }
+    4 headers 
+
+        headers file holds your function declarations so you can use in your cpp files
+        if you want to use them in all your files you would have to copy the declarations to each 
+        one but with header files you just use the preprocessor #include "file.h" and it will copy 
+        that files context into the file so you only have to write one line and not more 
+
+        syntax 
+
+            declarations
+                type function(arguments);->this is all
+
+            definitions
+                type function(arguments){
+                    actions
+                }
+
+        declarations
+            declarations will just say to the computer that there is a function with this name
+            that takes these varaible and returns this type else where in your code 
+  
+        ex
+            example 1
+                #Log.h <-this is a file
+
+                    #pragma once<- this is a header guard preventes us from inculeding a file 
+                    //multiple times in a single translation unit so stops 
+                        //other way to do pragma
+                            #ifndef _LOG_H
+                            #define _LOG_H
+
+                            void InitLog();
+                            void Log(const char* message);
+
+                            #endif
+
+                    #include <iostream>
+
+                    void InitLog();
+                    void Log(const char* message);
+                
+                #Log.cpp <-this is a file
+
+                    #include "Log.h"
+
+                    void InitLog(){
+                        Log("Initializing Log");
+                    }
+
+                    void Log(const char* message){
+                        std::cout << message << std::endl;
+                    }
+
+                #main.cpp <-this is a file
+                    #include "Log.h"
+
+                    int main(){
+                        InitLog();
+                        Log("Hello World");
+                    }
+    5 conditionals
+
+        the move if statements the worse code 
+        a conditionals take a bool value which is true or false
+
+        operators 
+            == this is asking if the value are equal so it compares every bit from each 
+            < this is less than 
+            > this is greater than
+            <= this is less than or equal
+            >= this is greater than or equal
+            !,not this not so not true is false not false is true you can use the sign or the word not
+            or,|| this is or so only 1 needs to be true for it to be true you can use the sign or the word or
+            and,&& this is an and so both need to be true for a true sign or word and 
+
+        basic syntax    
+            single if- if (boolion expression){actions}
+
+
+            if(boolion expression){actions}
+            if else (boolin expression){action}
+            else{action}
+
+
+
+            explain:
+                if(varaible) // is just asking is this variable any thing but 0 if so run
+                                // this also works for pointers
+
+
+                how else if works:
+                    //it runs a else in that else is an if then if not true it goes to the next 
+
+                
+                    else{
+                        if{
+
+                        }
+                    }
+
+                    //is the same as ubove is what the compiler is really doing
+
+                    else if {
+
+                    }
+
+        ex:
+            example 1 basic:
+
+                int main()
+                {   
+                    int x = 5;
+                    bool comparisonResult = x == 5;
+                    if (comparisonResult){ //same as if(1)
+                        std::cout << "Hello, World" << std::endl;
+                    }
+                    std::cin.get();
+                }
+            
+            example 2 simp of 1:
+
+                int main()
+                {   
+                    int x = 5;
+                    if (x == 5) 
+                        std::cout << "Hello, World" << std::endl;
+                    std::cin.get();
+                }
+
+            example 3 simp of 2:
+
+                int main()
+                {
+                    int x = 5;
+                    if(x == 5) std::cout<<"Hello,World" << std::endl;
+                    std::cin.get();
+                }
+
+            example 4 if-chain:
+
+                void Log(const char* word){
+                    std::cout << word << std::endl;
+                }
+
+                int main(){
+                        const char* ptr = "Hello";
+                        if (ptr){
+                            Log(ptr);
+                        }
+                        else if (ptr == "Hello"){
+                            Log("Ptr is Hello!");
+                        }
+                        else{
+                            Log("Ptr is null!");
+                        }
+                        std::cin.get();
+                    }
+
+            example 5 simp of 4:
+
+                        example 4 if-chain:
+
+                void Log(const char* word){
+                    std::cout << word << std::endl;
+                }
+
+                int main(){
+                        const char* ptr = "Hello";
+                        if (ptr)
+                            Log(ptr);
+                        else if (ptr == "Hello")
+                            Log("Ptr is Hello!");
+                        else
+                            Log("Ptr is null!");
+
+                        std::cin.get();
+                    }
+
+                //if it is just one line you dont need to put {} only do that if its more than 1 line
+                // you can all so put them on the same line like this 
+
+                    if (ptr) Log(ptr);
+                    else if (ptr == "Hello") Log("Ptr is Hello!");
+                    else Log("Ptr is null!");
+    6 loops:
+
+        use for loop when you know then number of times you want to interate 
+        use while loop if you dont know how long 
+        use do while if you want at least 1 time
+
+        for loop:
+            
+            all parts are optional if you dont put anything its a infinite loop 
+
+            rules 
+            -all variables must be the same type
+            -exactly two ;
+            -key word for and ()
+            
+            ya thats all look at example 2 under ex to see what i mean you can do what ever you want 
+
+            in the update you must re-initializes the value if anything greater then 1 
+            short hand 
+                i++ this is incroment up by 1 
+                i-- decroment by 1 
+                i+=2 is add 2
+                i*=3 is times 3
+
+            syntax:
+                basic for loop
+                    for(initialization;condition;update){
+                        actions to do each time
+                    }
+                
+                infinite for loop:
+                    for(;;){
+                        actions
+                    }
+
+                many varaiable for loop:
+                    for (int a = 10 ,int b = 5;a>b;b+=2,a++){
+                        actions
+                    }
+
+                range based for loop:
+                    for (type variable : range){<- works like python for i in array
+                        actions
+                     }
+                        : -> this is in but in c++ 
+                    ex 
+                        int{0};
+                        for (int num : nums){
+                            total += num;
+                        }
+                        this will add the total of all the elements in the array
+           
+            ex:
+                example 1 basic for loop:
+
+                    void Log(const char* word){
+                        std::cout << word << std::endl;
+                    }
+
+                    int main(){
+                         for (int i = 0; i < 5; i++){
+                            Log("Hello World");
+                        }
+                    }
+                
+                example 2 weird but works:
+
+                    int i = 0;
+                    bool condition = true;
+                    for ( ;condition; ){
+                        std::cout << i << std::endl;
+                        i++;
+                        if (!(i<5)) 
+                            condition = false;
+                    }
+
+                    //this is to show you can do what every you want just small rules to follow
+        while loop:
+
+            good for like game loops where you keep track of the state of the game if running
+
+            syntax:
+
+                basic:
+                    while (condition){
+                        action
+                    }
+
+            ex:
+                example 1:
+
+                    int i = 0;
+                    while (i<5){
+                        i++;
+                    }
+        do while loop:
+
+            it will run at least 1 time then it checks the condition 
+
+            syntax:
+
+                do {
+                    action
+                    }while (condition)
+
+        code i have learned form:
+            example 1:
+                #include <string>
+
+                std::string DNAtoRNA(std::string dna){ 
+                for(char& c : dna) { -> get a reference for each char thats why & this lets me change the 
+                                        values in the dna itself
+                    if (c == 'T'){
+                        c = 'U';
+                    }
+                }
+                return dna;
+                } 
+    7 Array / vector - dynamic array
+
+        find the size of the array best:
+            best solution in modern c++:
+                #include <iterator>
+                #include <cstddef> 
+                
+                size_t n_elements = std::size(array);
+
+            for raw array:
+                #include <cstddef> 
+                size_t n_elements = sizeof(array) / sizeof(elements_type)
+
+                ex:
+                    short array[] =  { 104, 105, 32, 98, 105, 108, 108, 0 };
+                    size_t n_elements = sizeof(array) / sizeof(array[0]);
+    8 enums / PODs
+    9 classes
+    10 unions 
+    11 methods
+    12 access controls 
+    13 constructor/destructor
+    14 pointers 
+    
