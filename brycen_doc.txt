@@ -2,21 +2,6 @@
 
 cl name.cpp to compile cl *.cpp to compile all 
 .\name.exe to run 
-
-1 preprocessor statments / compiler
-2 variable
-3 functions 
-4 headers
-5 conditionals
-6 loops
-7 Array 
-8 enums / pods
-9 classes
-10 unions 
-11 methods
-12 access controls 
-13 constructor/destructor
-14 pointers 
 brycen's docs
 
     cin cout namespace
@@ -460,6 +445,20 @@ brycen's docs
                     if (ptr) Log(ptr);
                     else if (ptr == "Hello") Log("Ptr is Hello!");
                     else Log("Ptr is null!");
+   
+            example 6 initialize in if statemen
+                int num{7};
+                
+                if (int v{2*num};v > 10){
+                    return v;
+                }
+                else{
+                    return num;
+                }
+
+                this is using braced initialization variable v and make of type int 
+                then check if the condition is statisfied 
+
     6 loops:
 
         use for loop when you know then number of times you want to interate 
@@ -578,7 +577,45 @@ brycen's docs
                 }
                 return dna;
                 } 
-    7 Array / vector - dynamic array
+    7 control flow 
+        continue;
+            so for a continue key word like it means you are done with this itteration 
+            do the next itteration 
+
+                example:
+                    int main(){
+                        for(size_t i{0};i <= 5;i++){
+                            if(i != 5)
+                                continue; <- end this itteration here and update values 
+                            std::cout << "its 5 now" << std::endl;
+                        }
+                    }
+                becuase of continue the message will only print 1 time at continue the itteration i
+                is told to just update and go on to the next itteration 
+        break;
+            this is used for leaving the inner loop when ever you want 
+
+            example 
+                int main(){
+                    while (true){<- this loop  will run forever 
+                        break; <- this makes it leave the forever loop and run the rest of the code 
+                    }
+                }
+        return
+            this is a function to give a new value back to the location that called the function 
+            must match the same type as in the function
+
+            example:
+                int main(){<- int is the return type of main
+                    return 0; <-this will send the value 0 back to place that called function 
+                                also nothing after this will run 
+
+                    std::cout << "Hello World" << std::endl;<-this line is known as dead code and it will
+                                                                never run
+                }
+
+                int x = main()<-this is a call and after return x is equal to 0
+    8 Array / vector - dynamic array
 
         find the size of the array best:
             best solution in modern c++:
@@ -594,11 +631,128 @@ brycen's docs
                 ex:
                     short array[] =  { 104, 105, 32, 98, 105, 108, 108, 0 };
                     size_t n_elements = sizeof(array) / sizeof(array[0]);
-    8 enums / PODs
-    9 classes
-    10 unions 
-    11 methods
-    12 access controls 
-    13 constructor/destructor
-    14 pointers 
-    
+    9 enums / PODs
+    10 classes/struct
+    11 unions 
+    12 methods
+    13 access controls 
+    14 constructor/destructor
+    15 pointers:
+        pointers are meant for managing and manipulating memory 
+        ------a pointer is a int (a number) that stores a memory adderss that is all it is.
+        
+        this is memory
+        #######################################
+        every one of these has an adderss it is 1 byte of data 
+
+        a pointer will tell us where that adderss is in the memory 
+
+
+        raw pointers 
+            void* pointer = 0; <- this is how you get a null pointer you can also replace 0 with NULL
+                                    or you can use keyword nullptr 
+
+                explain:
+                    the pointer above is completely useless it has a type void witch is nothing 
+                    and set to 0 <- 0 is #define NULL in c++ 0 means nothing is there 
+
+                    void* <- the * after the type is how you know it is a pointer 
+
+                    the 3 ways of getting a null pointer 
+                        void* ptr = 0;
+                        void* ptr = NULL;
+                        void* ptr = nullptr;
+
+            getting the adderss of a variable
+                int var = 8;
+                void* ptr = &var;<- this well set the pointer to the adderss at var
+                            &<- this is the adderss of operator or reference symbol
+                            *<- dereference operator value at the address so now its open to be 
+                                filled
+
+                a pointer still does have a location but when you look at the value of that location it 
+                gives you the value of a different place in memory when the pointer is set to  
+
+                so lets say ptr = 0x00A0FB64 this is hexidecimal base 16
+                if we were to look this up int memory we word find 08 00 00 00 = to 8 a int takes 
+                4 bytes of data so we have for byte with a value of 8 
+
+                if you were to change the type of the point it really does not do anything 
+
+                int* ptr = &var;<- is the same thing but void is safest 
+                but void* is still an int becuase pointer are ints that store memory addersses 
+
+            dereferening 
+                so say you make a pointer
+                int var = 8;
+                void* ptr = &var;
+                and now i want it to not point to var anymore i can do 
+                *ptr <- this is accessing the memory at the pointer value at its own location 
+
+                now this is where types are a little more importent 
+                i cant do *ptr = 10;<- becuase the type is void and the computer does 
+                    not know how much memory to allocate for the ptr with a value of 10 
+
+                doing what is above is changing the value at the location of var btw 
+                
+                *p changes pointed to value
+
+                example
+                    int* ptr = &var;
+                    *ptr = 4;
+                    if i print var it will give me 4 now 
+
+            on the stack
+                int var = 8;<- this is on the stack
+
+            on the heap
+                char* buffer= new char[8];<-this is getting an array but what its really doing 
+                                            it is getting us 8 bytes of space on the heap and giving
+                                            a pointer to the begining of that box
+
+                memset(buffer,0,8);<-this is a function that fills in data so its getting the pointer
+                                    of the first location that is called buffer in this example
+                                    0 is the value we want to put in a those locations and
+                                    8 is the number of bytes we want to fill in total 
+
+                to be a good boy you should get rid of the memory you 
+                put on the heap by saying 
+                delete[] buffer;
+        smart pointers 
+    16 references
+        a way of looking at a existing variable 
+
+        example
+            int a = 5;
+            int& ref = a;<- not really a variable works like if it was a
+                            you can update the value of a by updateing the value of ref 
+            
+            ref = 2;
+
+            std::cout << a << std::endl;<- this will output 2 a and ref are inter changeable 
+
+        example 2 Incroment
+            void Incroment(int value){
+                value++;
+            }
+
+            int main(){
+                int a = 5;
+                Incroment(a);
+                std::cout << a << std::endl;
+            }
+
+            this will make a copy of a becuase it is passing by value so output is still 5 
+
+            to make changes to the value we need to pass by reference
+
+            void Incroment(int* value){ <- so incroment is now taking a pointer
+                value++;
+            }
+
+            int main(){
+                int a = 5;
+                Incroment(&a);<- this is sending the reference or adderss of to the function 
+                                this allows it to access the memory location
+                std::cout << a << std::endl;
+            }
