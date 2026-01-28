@@ -458,7 +458,6 @@ brycen's docs
 
                 this is using braced initialization variable v and make of type int 
                 then check if the condition is statisfied 
-
     6 loops:
 
         use for loop when you know then number of times you want to interate 
