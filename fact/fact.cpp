@@ -19,20 +19,5 @@ int main(){
     cout << "enter whole number: ";
     cin >> num;
     cout << endl;
-    cout << "fact" << fact(num) << "recursion" << fact_r(num) << endl;
+    cout << "fact: " << fact(num) << "recursion: " << fact_r(num) << endl;
 }
-long long fact(long long num){
-    long long total{0};
-    for(long long i{num};i == 1;i--){
-        total += i * (i-1);
-    }
-    return total;
-
-}
-long long fact_r(long long num){
-    if(num == 1){
-        return 1;
-    }
-    return num * fact_r(num-1);
-
-}   
