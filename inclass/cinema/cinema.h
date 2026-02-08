@@ -2,7 +2,8 @@
 
 #include <iostream>
 #include <string>
-#include "funct.cpp"
 
 
-
+void output(std::string,int);
+std::string get_week();
+int get_age();

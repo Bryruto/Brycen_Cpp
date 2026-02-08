@@ -1,4 +1,4 @@
-                                                Brycen's c++ doc 
+Brycen's c++ doc 
 
 cl name.cpp to compile cl *.cpp to compile all 
 .\name.exe to run 
@@ -206,6 +206,7 @@ brycen's docs
                 conversion:
                     std::sroi(string);         // string -> int
                     std::to_string(int);       // int -> string
+                    std::tranform(first,last,out_first,unary_op)            // need <algorithm>
                 user input
 
                     std::getline(std::cin, string_variable);  // read whole line <- best
@@ -322,6 +323,16 @@ brycen's docs
                         Log("Hello World");
                     }
     5 conditionals
+        
+        ternary operator
+            (condition) ? if true : if false;
+
+            ex
+                std::cout << "The max is: " << ((a > b) ? a : b) << std::endl;
+
+                int x = (a > b) ? a : b; 
+                
+                return (condition) ? value1 : value2;
 
         the move if statements the worse code 
         a conditionals take a bool value which is true or false
@@ -631,7 +642,163 @@ brycen's docs
                     short array[] =  { 104, 105, 32, 98, 105, 108, 108, 0 };
                     size_t n_elements = sizeof(array) / sizeof(array[0]);
     9 enums / PODs
-    10 classes/struct
+    10 classes/struct:
+        object-oriented languages
+            really just a why of programing 
+            it makes it so you can make your own data types and manipulate it they why you want
+        
+        c++ does not force a style on you any you can do with a class you can do without 
+        classes 
+            private by default
+
+            visibility
+                private
+
+                public
+
+                protected
+            
+            constructor
+            
+            getter 
+            
+            setter 
+
+            methods
+                they are functions that are in a class 
+
+        structs
+            public by default
+
+            use when you are taking about POD 
+            so if you just want variable to be connected and accessable 
+
+            example
+                struct Vec2{
+                    float i;
+                    float k;
+                }
+
+                but you can still add methods
+
+        examples
+            example 1 basic method visibility and refernences 
+                class Player{
+                    public:<-to make it so you can access anywhere 
+                        int x,y; 
+                        int speed;
+
+                    methods are functions inside of a class and or struct
+                        void move(int xa, int ya)<-you dont need a reference to the player anymore because you are in the class
+                        {
+                            x += xa * speed; <-x,y,and speed are in this scope 
+                            y += ya * speed;
+                        }
+                    }; 
+                
+                    say we want to more the player instance you can do this
+                        void Move(Player& player,int xa,int ya){<- you have to pass a reference to the player 
+                                                                    lets you change the value in the class otherwise 
+                                                                    you are just using a copy
+                            player.x += xa * player.speed;<-to access anything in the class you use dot notation
+                            player.y += ya * player.speed; 
+
+                        }
+                    
+                    int main(){
+                        Player player; <-that is how you make an instance of a class <-instantiation
+                                        you can call this an instance or object of a classes
+                        player.x 5;  
+                        move(player,1,-1); <- this is calling a function
+                        player.move(1,-1); <- this is using calling a method 
+
+                    }
+            example 2 noob class f tier of writing a class
+                class Log {
+                    public:<- you can visibilites as many times as you like
+                        const int LogLevelError = 0; 
+                        const int LogLevelWarning = 1;
+                        const int LogLevelInfo = 2; 
+                    private:
+                        int m_LogLevel = LogLevelInfo;
+                        ---m_ is used to say member variable tells you its private and helps dont need to do
+                    public: 
+                        void SetLevel(int level)<- this is a setter it just sets varaibles 
+                        {
+                            m_LogLevel = level; <- a setter 
+                        }
+
+                        void Error(const char* message)
+                        {
+                            if (m_LogLevel >= LogLevelError)
+                                std::cout << "[ERROR]: " << message << std::endl;
+                        }
+
+                        void Warn(const char* message)
+                        {
+                            if (m_LogLevel >= LogLevelWarning)
+                                std::cout << "[WARNING]: " << message << std::endl;
+                        }
+
+                        void Info(const char* message)
+                        {
+                            if(m_LogLevel >= LogLevelInfo)
+                                std::cout << "[INFO]: " << message << std::endl;
+                        }
+                    };
+
+                notes on making a class
+                    --- when you start to make a class put a little about how you are going to use it in your 
+                        main first before you even making the class itself give you a better mental model of what you 
+                        want it to do 
+                
+                int main(){
+                    Log log;
+                    log.SetLevel(Log.LogLevelWarning);
+                    log.Warn("Hello"); 
+                    log.Error("Hello");
+                    log.Info("Hello"); 
+                    }
+            example 3 mid class c tier of witing a class
+                class Log{
+                    public:<- you can visibilites as many times as you like
+                    const int LogLevelError = 0; 
+                    const int LogLevelWarning = 1;
+                    const int LogLevelInfo = 2; 
+                    private:
+                    int m_LogLevel = LogLevelInfo;
+                    ---m_ is used to say member variable tells you its private and helps dont need to do
+                    public: 
+                    void SetLevel(int level)<- this is a setter it just sets varaibles 
+                    {
+                        m_LogLevel = level; <- a setter 
+                    }
+
+                    void Error(const char* message)
+                    {
+                        if (m_LogLevel >= LogLevelError)
+                            std::cout << "[ERROR]: " << message << std::endl;
+                    }
+
+                    void Warn(const char* message)
+                    {
+                        if (m_LogLevel >= LogLevelWarning)
+                            std::cout << "[WARNING]: " << message << std::endl;
+                    }
+
+                    void Info(const char* message)
+                    {
+                        if(m_LogLevel >= LogLevelInfo)
+                            std::cout << "[INFO]: " << message << std::endl;
+                    }
+                    };
+                int main(){
+                    Log log;
+                    log.SetLevel(Log.LogLevelWarning);
+                    log.Warn("Hello"); 
+                    log.Error("Hello");
+                    log.Info("Hello"); 
+                    }
     11 unions 
     12 methods
     13 access controls 
@@ -717,14 +884,56 @@ brycen's docs
                 to be a good boy you should get rid of the memory you 
                 put on the heap by saying 
                 delete[] buffer;
-        smart pointers 
+        smart pointers   
     16 references
         a way of looking at a existing variable 
+        reference an existing variable
 
+        after you initialize a variable to a reference you cant reference anything else with that variable
+        you also must initialize there is now null reference that you can set later 
+        
+        a work around to change reference 
+            int a = 5;
+            int b = 8; 
+
+            int* ref = &a; <-you make the reference a pointer to a's adderss
+            ref = &b; <- to change you then reference b 
+
+        pass by value:
+            int function(int value){
+                return value; 
+            } 
+            
+            int main(){
+                int a{3};
+                std::cout << function(a) << std::endl; <-it sends a copy of the variable
+            }
+
+        pass by reference: 
+            int function(int& value){<-now you are taking the reference of the variable you just got 
+                value++; 
+                return value; 
+            } 
+            
+            int main(){
+                int a{3};
+                std::cout << function(a) << std::endl;
+            }
+            you can also do it this way more 
+                int function(int* value){<-this is now taking a pointer
+                    (*value)++;<-dereference allows you to update value pointer is pointing to 
+                    return value; 
+                } 
+                
+                int main(){
+                    int a{3};
+                    std::cout << function(&a) << std::endl; <-the difference is here this will allow you to change the value of 
+                }
         example
             int a = 5;
             int& ref = a;<- not really a variable works like if it was a
-                            you can update the value of a by updateing the value of ref 
+                            you can update the value of a by updating the value of ref 
+                            think of it like alias 
             
             ref = 2;
 
@@ -755,3 +964,62 @@ brycen's docs
                                 this allows it to access the memory location
                 std::cout << a << std::endl;
             }
+    17 static 
+        static in a file
+            static has to do with translation units the key word static means this name is private to this file/translation unit
+            the linker can not use this variable in other files even if linked 
+
+            if you name 2 variables with the same name without calling static the program will compile but fail at 
+            linking stage 
+        static in a class 
+            static variable in a class will share the same memory with all the other instances of the class samething with 
+            methods in the class 
+         
+        
+
+        example 1 
+            works 
+                # static.cpp
+                    static int s_Variable = 5; <-this variable being static will only let me get this memory when im in this file
+
+                #main.cpp
+                    #include <iostream>
+
+                    int s_Variable = 10;
+
+                    int main()
+                    {
+                        std::cout << s_Variable << std::endl;
+                        std::cin.get(); 
+                    }           
+            fails
+                # static.cpp
+                    int s_Variable = 5; <-this variable <-i remove the static variable making it fail when linking  
+                                        because there are 2 variable with the same name.
+
+                #main.cpp
+                    #include <iostream>
+
+                    int s_Variable = 10;
+
+                    int main()
+                    {
+                        std::cout << s_Variable << std::endl;
+                        std::cin.get(); 
+                    }
+        example 2 extern
+            #staic.cpp  
+                int s_Variable = 5;
+
+            #main.cpp
+                #include <iostream>
+                    
+                extern int s_Variable;<-extern here means this variable is in a different translation unit go look for it
+                                        external linking
+                                        if you say this it will cause an error if it can't find the variable 
+
+                int main()
+                {
+                    std::cout << s_Variable << std::endl;
+                }
+    next thing
