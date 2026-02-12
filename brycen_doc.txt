@@ -1,9 +1,16 @@
 Brycen's c++ doc 
 
+
+git stuff 
+    git init -give you a path to up and for the module you are in i think
+    git add . -stages the changes you made 
+    git commit -am "word" -gives everything ready to push 
+    git push -update the repo with changes 
+    git submudule add link -this will let you add other dispo to your dispo 
+
 cl name.cpp to compile cl *.cpp to compile all 
 .\name.exe to run 
 brycen's docs
-
     cin cout namespace
         std::cout << varint << std::endl;
         // std -> is a namespace for iostream library
@@ -164,6 +171,22 @@ brycen's docs
                 up as a size_t varaiable which is just an unsigned int that is made to work better for 
                 memory stuff 
         
+        rounding float-double 
+            just for printing 
+                #include <iostream>
+                #include <iomanip>
+
+                std::cout << std::fixed << std::setprecision(decimal place round to) << variable << endl;
+
+            change value
+                #include <cmath>
+                
+                double number = 3.14159;<- number we are rounding to decimal place
+                double decimal = std::pow(10.0,int decimal place);<- 10^decimal_place 
+                std::round(number*decimal)/decimal;<- add decimal back
+
+                so this is like a shift the dicimal point to the right with * then move to the left with / 
+            
         strings
             #include <string>
             using std::string; // dont have to say std every time
@@ -197,14 +220,15 @@ brycen's docs
                     s.pop_back();              //remove the last char
                     s.earse(start,count=end)   //remove index for start and count is just that many over
                     s.clear();                 //empty string
-                    s.replace(start,count,replacement); //from start count after start replace 
+                    s.replace(start,count,replacement); //from start count after start replace
+                     
                 find char:
                     s.find(value);             //find first char with the value
                     s.rfind(value);            //find but reversed
                 substring use a lot
                     s.substr(start,count);     //start then count over between will give you substring
                 conversion:
-                    std::sroi(string);         // string -> int
+                    std::stroi(string);         // string -> int
                     std::to_string(int);       // int -> string
                     std::tranform(first,last,out_first,unary_op)            // need <algorithm>
                 user input
@@ -219,6 +243,7 @@ brycen's docs
 
                     std::cin  >>  value;      // token input
                     getline(cin, string);     // line input
+
     3 functions
         functions are used to increase readablity and decrease redundant code 
 
@@ -633,39 +658,224 @@ brycen's docs
                 #include <cstddef> 
                 
                 size_t n_elements = std::size(array);
+        removing from a vector
+            std::erase(v,value_to_removev); // this is all values
+
+            v.erase(value_to_removev); // this is 1 value 
 
             for raw array:
                 #include <cstddef> 
                 size_t n_elements = sizeof(array) / sizeof(elements_type)
 
+                std::vector<type> = {values,values,...};
+
                 ex:
                     short array[] =  { 104, 105, 32, 98, 105, 108, 108, 0 };
                     size_t n_elements = sizeof(array) / sizeof(array[0]);
     9 enums / PODs
+        enums
+
+            enum is short enumeration enum is just a integer
+            which is just a set of values where each name has an int 
+            a -> 1 
+            b -> 2 
+            c -> 3
+
+            example
+                this is bad and what enum can fix
+                    #include <iostream>
+
+                    int A = 0;
+                    int B = 1;
+                    int C = 2;
+
+                    int main(){
+                        int value = B;
+                        
+                        if (value == b){do somthing}
+                    }
+                    why is this bad a,b,c are not together at all 
+
+                with an enum 
+                    #include <iostream>
+
+                    enum Example : char<- dont need this : part but it lets you set the type must be int char is int 
+                    {
+                        A,B,C <- 0,1,2 are the values by default <-A=1,B=2,C=3 would work to set the values
+                    };  
+
+
+                    int main(){
+                        Example value = B;<-type enum it must be A,B,or C 
+                        
+                        if (value == B){<-same as value == 1 B is just an int
+                            //do somthing
+                            }
+                    }
     10 classes/struct:
         object-oriented languages
             really just a why of programing 
             it makes it so you can make your own data types and manipulate it they why you want
         
         c++ does not force a style on you any you can do with a class you can do without 
+         
+        satic in a class 
+            means there is one one variable for all instances of the class
+            meaning if one of the instances changes that variable it happens over all instances
+            by doing this you can use it like a global variable so if use instance in main it will be the 
+            same variable no matter every time no matter the instance 
+
+
         classes 
             private by default
 
-            visibility
-                private
+            constructors
+                a constructors is a method that automaticly runs every time we instantiate/make new instance of a class
+                does not have a return type and must be the same name as the class
 
-                public
+                if you dont write a constructer you get the default constructer which is made for you but that one is empty
 
-                protected
-            
-            constructor
-            
-            getter 
-            
-            setter 
+                in cpp you must initialize your primitive data types 
+
+                you can make as many as you like ofc with a different amount of arguments
+                
+                #include <iostream>
+                example
+                    example 1 constructers 
+                        class Entity
+                        {
+                            public:
+                                float x,y;
+
+                            Entity(){
+                                x = 0.0f;
+                                y = 0.0f;
+                            }
+
+                            Entity(float i, float i2){
+                                x = i; 
+                                y = i2; 
+                            }
+
+                            void Print()
+                            {
+                                std::cout << x << ", " << y << std::endl;
+                            }
+                        }; 
+
+                        int main() 
+                        {
+                            Entity e;<-calls constructer with no arguments
+                            Entity e(10.0f,5.0f);<- calls constructer with 2 arguments
+                            e.Print();
+                        }
+                example 2 
+                    class Log{
+                        private:
+                            Log() {} <- one way 
+
+                        public:
+                            Log() = delete;<-second way
+
+                            static void Write(){}
+                    }
+
+                    int main(){
+                        Log::Write();
+                        Log l;<- stop people from doing this
+                    }
+                    
+                    notes
+                        first way makes the constructer private so the default does not get made and instance cant get to private
+                        
+                        second way just delete the constructer cant use what you dont have   
+
+            destructors 
+                a method that runs when you destory an object 
+                you know something is a destructer when it has a ~ 
+
+                if you use stuff on the heap and need to free that manualy 
+                example
+                    example 1 
+                        class Entity{
+                            public:
+                                float X, Y;
+
+                                Entity(float x,float y)
+                                {
+                                    X = x;
+                                    Y = y; 
+                                }
+
+                                ~Entity()<-this happens when you level the scope of where this was made
+                                {
+                                    std::cout << "Destroyed" << std::endl;
+                                }
+                        };
+
+            initialization of an instance 
+                Person <- class name 
+                brycen <- variable name 
+
+                Person brycen; -> this is default no member variable set yet
+
+                Person brycen ("Brycen",20) -> direct initialization: calls constructor with arguments 
+
+                Person brycen = Person("Brycen", 20); -> this makes a copy of the object 
+
+                Person brycen{"Brycen",20}; -> direct-list initialization -- best practice 
+
+                Person brycen = {"Brycen",20}; -> copy-list initialization 
 
             methods
                 they are functions that are in a class 
+
+                what a class method really looks like 
+                    stactic void Print(class instance)
+                    {
+                        std::cout << intatnce.x << ", " << intatnce.y << std::endl; 
+                    }
+            
+            Inheritance
+                allows us to have a hierarchy of classes that are linked parent class and child this is good so we dont have 
+                duplicating code 
+
+                allows you to exstend an existing class and add functionality to it
+
+                example
+                    example 1 
+                        class Entity--super class
+                        {
+                            public: 
+                                float X,Y;
+
+                                void Move(float xa, float ya){
+                                    X += xa; 
+                                    Y += ya;
+                                }
+                        };
+
+                        --sub class
+                        class Player : public Entity <-child class : parent class if in public of entity 
+                        {               --anything that is not private to Entity can be used by player 
+                            public:
+                                const char* Name;
+                                
+                                void PrintName(){
+                                    std::cout << Name << std::endl;
+                                }
+                        };
+
+                        int main(){
+                            std::cout << sizeof(Entity) << std::endl; <- 8 bytes 
+                            std::cout << sizeof(Player) << std::endl; <- 12 bytes
+                            Player player;
+                            player.Move(5,5);
+                            player.X = 2;
+                        }
+
+            polymorphism
+                you can have many types for a single type
 
         structs
             public by default
@@ -713,91 +923,160 @@ brycen's docs
                         player.move(1,-1); <- this is using calling a method 
 
                     }
-            example 2 noob class f tier of writing a class
-                class Log {
-                    public:<- you can visibilites as many times as you like
-                        const int LogLevelError = 0; 
-                        const int LogLevelWarning = 1;
-                        const int LogLevelInfo = 2; 
-                    private:
-                        int m_LogLevel = LogLevelInfo;
-                        ---m_ is used to say member variable tells you its private and helps dont need to do
-                    public: 
-                        void SetLevel(int level)<- this is a setter it just sets varaibles 
-                        {
-                            m_LogLevel = level; <- a setter 
-                        }
 
-                        void Error(const char* message)
-                        {
-                            if (m_LogLevel >= LogLevelError)
-                                std::cout << "[ERROR]: " << message << std::endl;
-                        }
-
-                        void Warn(const char* message)
-                        {
-                            if (m_LogLevel >= LogLevelWarning)
-                                std::cout << "[WARNING]: " << message << std::endl;
-                        }
-
-                        void Info(const char* message)
-                        {
-                            if(m_LogLevel >= LogLevelInfo)
-                                std::cout << "[INFO]: " << message << std::endl;
-                        }
-                    };
-
-                notes on making a class
-                    --- when you start to make a class put a little about how you are going to use it in your 
-                        main first before you even making the class itself give you a better mental model of what you 
-                        want it to do 
+            example 2 static for a class
+                #include <iostream>
                 
-                int main(){
-                    Log log;
-                    log.SetLevel(Log.LogLevelWarning);
-                    log.Warn("Hello"); 
-                    log.Error("Hello");
-                    log.Info("Hello"); 
-                    }
-            example 3 mid class c tier of witing a class
-                class Log{
-                    public:<- you can visibilites as many times as you like
-                    const int LogLevelError = 0; 
-                    const int LogLevelWarning = 1;
-                    const int LogLevelInfo = 2; 
-                    private:
-                    int m_LogLevel = LogLevelInfo;
-                    ---m_ is used to say member variable tells you its private and helps dont need to do
-                    public: 
-                    void SetLevel(int level)<- this is a setter it just sets varaibles 
-                    {
-                        m_LogLevel = level; <- a setter 
-                    }
+                ---------basic class before static 
+                    struct Entity
+                        {
+                        int x, y;<- member variables  
 
-                    void Error(const char* message)
-                    {
-                        if (m_LogLevel >= LogLevelError)
-                            std::cout << "[ERROR]: " << message << std::endl;
-                    }
+                        void Print(){
+                            std::cout << x << ", " << y << std::endl;
+                        }
+                        };
+                    
+                    int main {
+                        Entity e; <- instance of the class 
+                        e.x = 2;
+                        e.y = 3; <-setting the variable members to values
 
-                    void Warn(const char* message)
-                    {
-                        if (m_LogLevel >= LogLevelWarning)
-                            std::cout << "[WARNING]: " << message << std::endl;
-                    }
+                        Entity e1 = {5,8}; <- instace of class and set values
 
-                    void Info(const char* message)
+                        e.Print();
+                        e1.Print();
+                        } 
+                        
+                        output 
+                        2,3
+                        5,8
+
+                ---------using static class variables and methods
+
+                    struct Entity
                     {
-                        if(m_LogLevel >= LogLevelInfo)
-                            std::cout << "[INFO]: " << message << std::endl;
-                    }
+                        static int x, y;<- member variables  
+
+                        static void Print(){<- static method 
+                            std::cout << x << ", " << y << std::endl;<- x,y must be static for this to work
+                            }
                     };
-                int main(){
-                    Log log;
-                    log.SetLevel(Log.LogLevelWarning);
-                    log.Warn("Hello"); 
-                    log.Error("Hello");
-                    log.Info("Hello"); 
+                    
+                    int Entity::x;<-makes x,y static class variables global
+                    int Entity::y;
+
+                    int main {
+                        Entity::x = 2; <- same behaivor if this is the same as above 
+                        Entity::y = 3;
+
+                        Entity::x = 5; 
+                        Entity::y = 8; 
+
+                        Entity::Print();
+                        Entity::Print();
+                    }
+
+                    output
+                    5,8
+                    5,8
+
+                    why i do it like this
+                        as you can see i call the Entity class that is because if a class variable is staic it is the same over all 
+                        instances of that class 
+                        
+                        that is also why i got rid of the instances of the class both e1 and e had the same x,y 
+
+                    why do it like this 
+
+            example 3 log class with enum
+                #include <iostream>
+                no enum
+                    class Log{
+                        public:
+                            const int LogLevelError = 0;<-const cant change will cause error
+                            const int LogLevelWarning = 1; 
+                            const int LogLevelInfo = 2;
+
+                        private: 
+                            int m_ogLevel = LogLevelInfo;
+
+                        public:
+                            void SetLevel(int level)
+                            {
+                                m_LogLevel = level;
+                            } 
+
+                            void Error(const char* message)
+                            {
+                                if (m_LofLevel >= LogLevelError)
+                                    std::cout << "[ERROR]: " << message << std::endl;
+                            }
+
+                            void Warn(const char* message)
+                            {
+                                if (m_LofLevel >= LogLevelWarning)
+                                    std::cout << "[ERROR]: " << message << std::endl;
+                            }
+
+                            void Info(const char* message)
+                            {
+                                if (m_LofLevel >= LogLevelInfo)
+                                    std::cout << "[ERROR]: " << message << std::endl;
+                            }
+
+                    };
+
+                    int main()
+                    {
+                        Log log; 
+                        log.SetLevel(log.LogLevelError);
+                        log.Warn("Hello!");
+                        log.Error("Hello!");
+                        log.Info("Hello!");
+                    }
+                ----------------with enum
+                    class Log{
+                        public:
+                            enum Level{
+                                LevelError,LevelWarning,LevelInfo
+                            };
+                        private: 
+                            Level m_LogLevel = Info;
+
+                        public:
+                            void SetLevel(Level level)
+                            {
+                                m_LogLevel = level;
+                            } 
+
+                            void Error(const char* message)
+                            {
+                                if (m_LofLevel >= LevelError)
+                                    std::cout << "[ERROR]: " << message << std::endl;
+                            }
+
+                            void Warn(const char* message)
+                            {
+                                if (m_LofLevel >= LevelWarning)
+                                    std::cout << "[ERROR]: " << message << std::endl;
+                            }
+
+                            void Info(const char* message)
+                            {
+                                if (m_LofLevel >= LevelInfo)
+                                    std::cout << "[ERROR]: " << message << std::endl;
+                            }
+
+                    };
+
+                    int main()
+                    {
+                        Log log; 
+                        log.SetLevel(log::LevelError);
+                        log.Warn("Hello!");
+                        log.Error("Hello!");
+                        log.Info("Hello!");
                     }
     11 unions 
     12 methods
@@ -965,6 +1244,7 @@ brycen's docs
                 std::cout << a << std::endl;
             }
     17 static 
+        you should try and make all varibles static
         static in a file
             static has to do with translation units the key word static means this name is private to this file/translation unit
             the linker can not use this variable in other files even if linked 
@@ -1022,6 +1302,78 @@ brycen's docs
                 {
                     std::cout << s_Variable << std::endl;
                 }
-    next thing
+    virtual Functions
+    #includelllllll
 
-    
+        
+        #include <iomanip>
+            //setpresision, fixed, showpoint, left, right, -> set and forget all cout will be formated like this after
+
+            //this will set a decimal point cut off so no numbers past decimal spot you choose 1 is .nothing
+            // counts from the left to right 10003 if decimal spot is 3 100 would output starts at 1 
+            cout << setprecision(decimal spot) << 3.88 << endl;
+
+            // the fixed starts counting at the . not before 
+            cout << fixed << setprecision(3) << pi << endl;
+
+            // will show point even is the value is 0
+            cout << showpoint <<setprecisions() << x << endl;
+
+            //all the numbers will be formated till you unset fixed
+            cout << setprecision(2) << fixed;
+            cout << pi << endl; 
+            cout << x << endl; 
+            cout << 19.99 << endl; 
+            cout.unsetf(ios::fixed);
+
+            //setw is right alined so 10 spaces then say hello not set and foget 
+            cout << setw(10) << "Hello" << 8675309 << endl;
+
+            // left moves spaces to after and right is the other way
+            cout << left << setw(10) << "Hello" << 
+
+            
+            cout << setpresision(3) << fixed;
+            cout << setw(15)<< This is row" << setw(10) << 8.1 << sew(10) << 124.90389 << endl; 
+            cout << setw(15)18.0 << setw(10) << 38.839 << setw(10) << endl;
+
+        #include <sstream> string stream
+
+            int a{50}; 
+            int b{100};
+            int result = a + b 
+            string display
+
+            // doing it this way you dont have to manually chagne it yourself
+            stringstream ss; 
+            ss << int << str << int << result << endl; 
+             
+            //adds only 1 at a time to display endl; will then give you a newline each time
+            while(ss >> display)
+                cout << dispaly << endl;
+            
+            // this will give me the full display all at once
+            getline (ss, display)
+                cout << display << endl;
+
+            // gets every thing in the string value
+            display = ss.str(); 
+            cout << display << endl; 
+
+            ss.clear(); no more stuff in the string 
+
+           --------------parsing the string
+
+           string grades = "2,3,3,3,2,2,5,5"; 
+           string grade; 
+           int totalGrade; 
+           int numgrade;
+
+            //give you the whole string 
+           ss.str(grades);
+            cout << ss.str() << endl;
+
+            //will give you one element at a time 
+            while (getline(ss,grade, ','))  // stream , string going into , seperater
+                cout << grade << endl;
+                totalGrade += stoi(grade); 
