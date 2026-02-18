@@ -1,6 +1,5 @@
 Brycen's c++ doc 
 
-
 git stuff 
     git init -give you a path to up and for the module you are in i think
     git add . -stages the changes you made 
@@ -76,7 +75,7 @@ brycen's docs
             obj file and and executable exe file
     2 variable
 
-        variable allow you to name a peice of data you store in memory so that you can
+        variable allow you to name a piece of data you store in memory so that you can
         the only real difference in variables is how big they are becuase c++ is weird
 
         basic syntax
@@ -243,7 +242,6 @@ brycen's docs
 
                     std::cin  >>  value;      // token input
                     getline(cin, string);     // line input
-
     3 functions
         functions are used to increase readablity and decrease redundant code 
 
@@ -725,7 +723,6 @@ brycen's docs
             by doing this you can use it like a global variable so if use instance in main it will be the 
             same variable no matter every time no matter the instance 
 
-
         classes 
             private by default
 
@@ -769,7 +766,7 @@ brycen's docs
                             Entity e(10.0f,5.0f);<- calls constructer with 2 arguments
                             e.Print();
                         }
-                example 2 
+                    example 2 
                     class Log{
                         private:
                             Log() {} <- one way 
@@ -1305,7 +1302,7 @@ brycen's docs
     virtual Functions
     #includelllllll
 
-        
+    
         #include <iomanip>
             //setpresision, fixed, showpoint, left, right, -> set and forget all cout will be formated like this after
 
@@ -1347,7 +1344,7 @@ brycen's docs
             // doing it this way you dont have to manually chagne it yourself
             stringstream ss; 
             ss << int << str << int << result << endl; 
-             
+            
             //adds only 1 at a time to display endl; will then give you a newline each time
             while(ss >> display)
                 cout << dispaly << endl;
@@ -1362,15 +1359,15 @@ brycen's docs
 
             ss.clear(); no more stuff in the string 
 
-           --------------parsing the string
+        --------------parsing the string
 
-           string grades = "2,3,3,3,2,2,5,5"; 
-           string grade; 
-           int totalGrade; 
-           int numgrade;
+        string grades = "2,3,3,3,2,2,5,5"; 
+        string grade; 
+        int totalGrade; 
+        int numgrade;
 
             //give you the whole string 
-           ss.str(grades);
+        ss.str(grades);
             cout << ss.str() << endl;
 
             //will give you one element at a time 
