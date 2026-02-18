@@ -8,6 +8,10 @@ git stuff
     git push -update the repo with changes 
     git submudule add link -this will let you add other dispo to your dispo 
 
+how to run test
+    g++ cd/file.cpp test/test.a test/test.o -lpthread -o name
+    compile all files you want to compile and link -lpthread for google test threads -o means name then name it anything
+    
 cl name.cpp to compile cl *.cpp to compile all 
 .\name.exe to run 
 brycen's docs
@@ -200,6 +204,7 @@ brycen's docs
                 string s2 = "hello";       // from literal
                 string s3("world");        // constructor - dont use
                 string s4 = s2;            // copy
+                string s5(s3.rbegin(),s3.rend()) // you can copy with this and reverse a string with this begin(), end() just add an r to reverse
             string functions:
                 size and length                   
                     s.size();                  // number of characters
@@ -221,7 +226,6 @@ brycen's docs
                     s.earse(start,count=end)   //remove index for start and count is just that many over
                     s.clear();                 //empty string
                     s.replace(start,count,replacement); //from start count after start replace
-                     
                 find char:
                     s.find(value);             //find first char with the value
                     s.rfind(value);            //find but reversed
@@ -243,7 +247,6 @@ brycen's docs
 
                     std::cin  >>  value;      // token input
                     getline(cin, string);     // line input
-
     3 functions
         functions are used to increase readablity and decrease redundant code 
 
