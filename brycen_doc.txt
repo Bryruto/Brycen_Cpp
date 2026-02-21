@@ -789,6 +789,7 @@ brycen's docs
                     }
                     
                     notes
+                        these are how to get around having a default constructor
                         first way makes the constructer private so the default does not get made and instance cant get to private
                         
                         second way just delete the constructer cant use what you dont have   
@@ -879,7 +880,43 @@ brycen's docs
 
             polymorphism
                 you can have many types for a single type
+            
+            virtual functions
+                allow us to overiding methods in different classes
 
+                #include <iostream>
+                #include <string>
+
+                class Entity
+                {
+                    public:
+                        std::string GetName() {return "Entity";}
+                };
+
+                class Player : public Entity 
+                {
+                    private:
+                        std::string m_Name;
+                    public:
+                        Player(const std::string& name) 
+                            : m_Name(name) {} <-this is calling the constructor for the string class and setting that 
+                                                member variable to name that is passed in
+                                                this is all done in one step and considered a lot cleaner 
+                                                this is called initializer list so constructor call then constructor call again
+                                                for the member variable
+
+                        std::string GetName() { return m_Name;}
+                }
+
+                int main(){
+                    Entity
+
+                    std::cin.get();
+                }
+
+                notes
+                    if you us initializer list then it will call in the order you have in you class variable not in the 
+                    order you use initializer list 
         structs
             public by default
 
@@ -1082,9 +1119,94 @@ brycen's docs
                         log.Info("Hello!");
                     }
     11 unions 
+        in math this is when you combine 2 sets set are unordered list with unique information
     12 methods
+        just a function but inside a class you use then with . notation most of the time.
     13 access controls 
+        this is public of private stuff ill and more later but this include static,public,private,pbr,pbv 
     14 constructor/destructor
+        constructors
+                a constructors is a method that automaticly runs every time we instantiate/make new instance of a class
+                does not have a return type and must be the same name as the class
+
+                if you dont write a constructer you get the default constructer which is made for you but that one is empty
+
+                in cpp you must initialize your primitive data types 
+
+                you can make as many as you like ofc with a different amount of arguments
+                
+                #include <iostream>
+                example
+                    example 1 constructers 
+                        class Entity
+                        {
+                            public:
+                                float x,y;
+
+                            Entity(){
+                                x = 0.0f;
+                                y = 0.0f;
+                            }
+
+                            Entity(float i, float i2){
+                                x = i; 
+                                y = i2; 
+                            }
+
+                            void Print()
+                            {
+                                std::cout << x << ", " << y << std::endl;
+                            }
+                        }; 
+
+                        int main() 
+                        {
+                            Entity e;<-calls constructer with no arguments
+                            Entity e(10.0f,5.0f);<- calls constructer with 2 arguments
+                            e.Print();
+                        }
+                example 2 
+                    class Log{
+                        private:
+                            Log() {} <- one way 
+
+                        public:
+                            Log() = delete;<-second way
+
+                            static void Write(){}
+                    }
+
+                    int main(){
+                        Log::Write();
+                        Log l;<- stop people from doing this
+                    }
+                    
+                    notes
+                        first way makes the constructer private so the default does not get made and instance cant get to private
+                        
+                        second way just delete the constructer cant use what you dont have   
+        destructors 
+                a method that runs when you destory an object 
+                you know something is a destructer when it has a ~ 
+
+                if you use stuff on the heap and need to free that manualy 
+                example
+                    example 1 
+                        class Entity{
+                            public:
+                                float X, Y;
+
+                                Entity(float x,float y)
+                                {
+                                    X = x;
+                                    Y = y; 
+                                }
+
+                                ~Entity()<-this happens when you level the scope of where this was made
+                                {
+                                    std::cout << "Destroyed" << std::endl;
+                                }
+                        };
     15 pointers:
         pointers are meant for managing and manipulating memory 
         ------a pointer is a int (a number) that stores a memory adderss that is all it is.
@@ -1305,8 +1427,9 @@ brycen's docs
                 {
                     std::cout << s_Variable << std::endl;
                 }
-    virtual Functions
-    #includelllllll
+    
+        t
+    18 #includelllllll
 
         
         #include <iomanip>
