@@ -14,7 +14,8 @@ how to run test
 cl name.cpp to compile cl *.cpp to compile all 
 .\name.exe to run 
 brycen's docs
-    cin cout namespace
+    cin cout
+     namespace
         std::cout << varint << std::endl;
         // std -> is a namespace for iostream library
         // :: -> means to go into
@@ -1428,8 +1429,6 @@ brycen's docs
     
         t
     18 #includelllllll
-
-    
         #include <iomanip>
             //setpresision, fixed, showpoint, left, right, -> set and forget all cout will be formated like this after
 
@@ -1460,7 +1459,6 @@ brycen's docs
             cout << setpresision(3) << fixed;
             cout << setw(15)<< This is row" << setw(10) << 8.1 << sew(10) << 124.90389 << endl; 
             cout << setw(15)18.0 << setw(10) << 38.839 << setw(10) << endl;
-
         #include <sstream> string stream
 
             int a{50}; 
@@ -1486,18 +1484,51 @@ brycen's docs
 
             ss.clear(); no more stuff in the string 
 
-        --------------parsing the string
+            --------------parsing the string
 
-        string grades = "2,3,3,3,2,2,5,5"; 
-        string grade; 
-        int totalGrade; 
-        int numgrade;
+            string grades = "2,3,3,3,2,2,5,5"; 
+            string grade; 
+            int totalGrade; 
+            int numgrade;
 
-            //give you the whole string 
-        ss.str(grades);
-            cout << ss.str() << endl;
+                //give you the whole string 
+            ss.str(grades);
+                cout << ss.str() << endl;
 
-            //will give you one element at a time 
-            while (getline(ss,grade, ','))  // stream , string going into , seperater
-                cout << grade << endl;
-                totalGrade += stoi(grade); 
+                //will give you one element at a time 
+                while (getline(ss,grade, ','))  // stream , string going into , seperater
+                    cout << grade << endl;
+                    totalGrade += stoi(grade); 
+        #include <cstdlib>
+            will give you numbers by default in a range 0 to 32,767
+
+    
+            using namespace std;
+
+            rand(); <- give you a random number based on the seed the seed only changes if you change it
+
+            srand(int) <- this will change the seed but doesn't fix the problem all the way because we need to change
+                        the int that is being passed
+
+            #include <ctime>
+            int x = time(0); <- this will give you time repersented by an int
+            srand(x); <- now the seed will be based on the system clock
+
+            to set the bounds just mod the number by the upper bound 
+            add to it the lower bound after doing mod 
+
+            in all mod = upper bound 
+                    add = lower bound
+
+                example 
+                    int x = time(0); <- used for setting the seed with looking at system time
+                    srand(x); <- do this to set the seed 
+                    cout << rand() << endl; <-this is 0 to 32,727 based on the system you are using
+                    cout << 1 + rand() % 6 << endl; <-this will give you the range 1 to 6 
+
+                
+
+
+
+
+

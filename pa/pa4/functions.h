@@ -1,7 +1,17 @@
-#pragma once 
-#include <string>
+/*
+Name-> Brycen Anderson
+ID-> 111017061
+structure-> OrderedPair.h
+            functions.h
+            main.cpp
+            OrderedPair.cpp
+            functions.cpp
+status-> working as intended
+compile-> g++ src/*.cpp -o run
+run->./run
+*/
+#pragma once
 #include <array>
-#include <ctime>
 #define MAX_SIZE 50
 
 int getInput(std::array<float, MAX_SIZE>& );
