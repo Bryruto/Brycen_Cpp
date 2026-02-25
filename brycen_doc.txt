@@ -1133,6 +1133,9 @@ brycen's docs
                 in cpp you must initialize your primitive data types 
 
                 you can make as many as you like ofc with a different amount of arguments
+
+                classname::classname(arg1,arg2)val1(arg1) ,val2(arg2) {} <- this is list initialization
+                
                 
                 #include <iostream>
                 example
@@ -1525,9 +1528,286 @@ brycen's docs
                     srand(x); <- do this to set the seed 
                     cout << rand() << endl; <-this is 0 to 32,727 based on the system you are using
                     cout << 1 + rand() % 6 << endl; <-this will give you the range 1 to 6 
+    19 initialisation list 
+        a way to initialize members in a constructor and just better and safer 
 
+        examples
+                normal 
+                    class Entity
+                    {
+                        private:
+                            std::string m_Name;
+                        public:
+                            Entity()
+                            {
+                                m_Name = "Unknown"
+                            }
+                            Entity(const std::string& name)
+                            {
+                                m_Name = name;
+                            }
+
+                            const std::string& GetName() const {return m_Name;}
+                    }; 
+
+                initialisation list 
+                    class Entity
+                    {
+                        private:<- the order that the list will run is this not how you put it 
+                            std::strign m_Name;
+                            int m_Score;
+                        public:
+                            Entity(): m_Name("Unknown"), m_score(0){} <- down here no matter what 
+
+                            Entity(const std::string& name): m_Name(name){}
+
+                            const std::string& GetName() const {return m_Name;}
+                    }; 
                 
+                how not to use and why its bad
+                    class Entity
+                    {
+                        private:<- the order that the list will run is this not how you put it 
+                            std::strign m_Name;
+                            int m_Score;
+                        public:
+                            Entity(): m_score(0){
+                                m_Name = std::string("Unknown");<- will construct 2 times
+                            } <- down here no matter what 
 
+                            Entity(const std::string& name): m_Name(name){}
+
+                            const std::string& GetName() const {return m_Name;}
+                    }; 
+
+        why do it like this 
+            1st style just looks better takes up less space also faster 2 will tell you why
+            2nd you can accidentally construct members more then once especially when part of a different class     
+    20 Arrow Operator
+        short cut to dereferencing. dereferencing is go to the end of the pointer and use the information there 
+                                        use data at adderss 
+        example
+            Arrow to dereference 
+                #include <iostream>
+                #include <string>
+
+                class Entity{
+                    public:
+                        int x;
+                        void Print() const {std::cout<< "Hello!" << std::endl;}
+                }; 
+
+                int main()
+                {
+                    Entity e;
+                    e.Print(); 
+
+                    Entity* ptr = &e;<- making a pointer ptr point to e adderss e is instance of Entity
+                    Entity& entity = *ptr; <-dereferencing that pointer no longer point to e use data at e
+                    entity.Print() <- call print method on instance of Entity class
+
+                    or 
+
+                    Entity* ptr = &e; <- same thing as above
+                    (*ptr).Print(); <- dereference then method print one line need the ()
+
+                    or 
+                    
+                    ptr->Print(); <- dereference pointer then call method print()
+
+                    ptr-> x = 2; 
+
+                }
+
+            how to overload ->
+                                #include <iostream>
+                #include <string>
+
+                class Entity{
+                    public:
+                        int x;
+                        void Print() const {std::cout<< "Hello!" << std::endl;}
+                }; 
+
+                class ScopedPtr{<- this is a smart pointer 
+                    private:
+                        Entity* m_Obj; <-raw pointer 
+                    public:
+                        ScopedPtr(Entity* entity): m_Obj(entity){} <-stores the raw pointer in m_Obj no allocation happens 
+                                                                    just saves the address
+
+                    ~ScopedPtr()<- destructor frees heap memory
+                    {
+                        delete m_Obj;
+                    }
+
+                    Entitiy* operator->() 
+                    {
+                        return m_Obj;
+                    }
+                    
+                    or for const
+
+                    const Entitiy* operator->() const
+                    {
+                        return m_Obj;
+                    }
+                };
+
+
+                int main()
+                {
+                    ScopedPtr entity = new Entity();
+                    const ScopedPtr entity = new Entity();
+                    entity->Print();
+                }
+
+            to get off set
+                struct Vector3
+                {
+                    float x,y,z;
+                };
+
+                int main()
+                {
+                    int offset = (int)&((vector3*)0)->x; <- how you find how far one piece of memory is from the other 
+                    or 
+                    int offset = (int)&((vector3*)nullptr)->x;
+
+                }
+    21 New keyword
+        new is just an opperator so you can overload it
+        new is how you allocate memory on the heap and also call the constructor
+        new finds a group of memory big enough for our need from a thing called free list which is a list of free memory
+            then gives us a pointer to that block of memory
+        
+        if you use new MUST USE delete pointer; c++ version of free() and delete calles desstructor
+        delete is also a opperator no one is safe 
+
+        new vs malloc 
+
+            new will call the constructor gives back addresss of pointer to that memory
+
+            malloc will purely allocate the memory and give us a pointer to that memory
+
+        example
+            what the code looks like
+                int main()
+                {
+                    int a = 2; <-on the stack copy of 2 set to a
+                    int* b = new int; <- pointer to address of 4 bytes of memory on the heap 
+
+                    int* b = new int[50];<- for an array will give me the start 
+
+                    Entity* e = new Entity[50];<- array of entitys <- delete[] for this one 
+
+                    Entity* e = (Entity*)malloc(sizeof(Entity));<- new calls this
+                                 malloc(sizeof(Entity)) <- c verison 
+
+                    Entity* e = new(location) Entity(); <- if you know the location 
+                }
+    22 operator overloading 
+        operator is a symbol we use to just do a function * -> & | new delete , () and so much more 
+        overloading just means giving a meaning to or changing the meaning 
+        should not use this that much if 
+    
+        example
+            way1
+
+                struct Vector2 {
+                    float x,y;
+                    
+                    Vector2(float x,float y): x(x), y(y) {}
+
+                    Vector2 Add(const Vector2& other) const
+                    {
+                        return Vector2(x + other.x, y + other.y); <- not overloading to avoid overloading 
+                                                                    but is what it does
+                    }
+
+                    Vector2 Multiply(const Vector2& other) const{
+                        return Vector2(x * other.x,y * other.y);
+                    }
+
+                    Vector2 operator+(const Vector2& other) const{
+                        return Add(other);
+                    }
+
+                    Vector2 operator*(const Vector2& other) const {
+                        return Multiply(other);
+                    }
+                }; 
+
+                int main()
+                {
+                    Vector2 position(4.0f, 4.0f);
+                    Vector2 speed(0.5f,1.5f);
+                    VEctor2 powerup(1.1f,1.1f);
+                    
+                    Vector2 result = position.Add(speed); <- what you do to not do overloading / same function tho
+
+                    Vector2 result = position.Add(speed.Multiply(powerup)); <- see how this is getting hard to read 
+                                        these do the same thing 
+                    Vector2 result = position + speed * powerup;<- now this just calls a function a passes the 2 instances being 
+                                                                    + or * 
+                }
+            way2 this is better you can also only do operator ones 
+                
+                struct Vector2 {
+                    float x,y;
+                    
+                    Vector2(float x,float y): x(x), y(y) {}
+
+                    Vector2 Add(const Vector2& other) const
+                    {
+                        return operator+(other);<- you can treat this like a function
+                    }
+
+                    Vector2 Multiply(const Vector2& other) const{
+                        return *this + other; <- this is the 3rd way current instance + other
+                    }
+
+                    Vector2 operator+(const Vector2& other) const{
+                        return Vector2(x + other.x, y + other.y);
+                    }
+
+                    Vector2 operator*(const Vector2& other) const {
+                        return Vector2(x * other.x,y * other.y);
+                    }
+
+                    bool operator==(const Vector2 other) const
+                    {
+                        return x==other.x && y == other.y;
+                    }
+
+                     bool operator!=(const Vector2 other) const
+                    {
+                        return !(*this==other); <- better 
+                        or 
+                        return !operator ==(other);
+                    }
+                }; 
+
+                std::ostream& operator<<(std::ostream& stream, const Vector2& other)
+                {
+                    stream << other.x << ", " << other.y; <- like this 
+                    return stream;
+                }
+
+                int main()
+                {
+                    Vector2 position(4.0f, 4.0f);
+                    Vector2 speed(0.5f,1.5f);
+                    VEctor2 powerup(1.1f,1.1f);
+
+                    Vector2 result = position + speed * powerup;
+
+                    std::cout << result2 << std::endl; <- will output x, y 
+
+                    if (result == result) <- this will now work 
+                }
+    23 virtual Functions 
+        
 
 
 
