@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <iostream> 
 
 
 void addElements(std::vector<int>& vec,int arr[],int size);
