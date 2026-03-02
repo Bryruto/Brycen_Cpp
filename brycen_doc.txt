@@ -1806,9 +1806,73 @@ brycen's docs
 
                     if (result == result) <- this will now work 
                 }
-    23 virtual Functions 
+    23 virtual Functions
+        virtual functions allow us to overide methods in subclasses
         
 
+        example
+            example 1
+                #include <iostream>
+                #include <string>
+
+                class Entity{
+                    public:
+                        std::string GetName(){return "Entitity";}
+                };
+
+                class Player : public Entity{
+                    private:
+                        std::string m_Name;
+                    public:
+                        Player(const std::string& name):m_Name(name) {}
+
+                        std::string GetName(){return m_Name;}
+                }; 
+
+                int main()
+                {
+                    Entity* e = new Entity();<- entity* is a pointer of size Entity
+                    std::cout << p->GetName() << std::endl;
+
+                    Player* p = new Player("name");
+                    std::cout << p->GetName() << std::endl;
+
+                    Entity* entity = p; <- you will get an entity part of the player p you can only use entity parts tho but the whole
+                                            player is there you just cant use it
+                    std::cout << entity->GetName() << std::endl;
+                }
+            
+            example 2
+                    #include <iostream>
+                    #include <string>
+
+                    class Entity{
+                        public:
+                            std::string GetName(){return "Entitity";}
+                    };
+
+                    class Player : public Entity{
+                        private:
+                            std::string m_Name;
+                        public:
+                            Player(const std::string& name):m_Name(name) {}
+
+                            std::string GetName(){return m_Name;}
+                    }; 
+
+                    void PrintName(Entity* entity)
+                    {
+                        std::count << entity->GetName() << std::endl;
+                    }
+
+                    int main()
+                    {   
+                        Entity* e = new Entity();
+                        PrintName(e)
+
+                        Player* p = new Player("cherno");
+                        PrintName(p);  
+                    }
 
 
 

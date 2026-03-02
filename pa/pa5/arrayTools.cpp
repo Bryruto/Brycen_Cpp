@@ -6,19 +6,13 @@
 #include <random>
 
 void generateArray(std::array<int,MAX_SIZE>& arr,int size,int min,int max){
-    //try{
-        if(!(MAX_SIZE >= size > 0))throw "Ensure the array size is between 1 and 100 (inclusive).";
-    //}
-
-    /*
-    catch (std::string error){
-        std::cout << error << std::endl;
-        return;}
-    */
+    if(!(MAX_SIZE >= size > 0))throw "Ensure the array size is between 1 and 100 (inclusive).";
+ 
     arr.fill(0);
     for(int index{};index<size;index++)
         arr[index] = min + std::rand() % max;
 }
+
 
 void reverseArray(std::array<int,MAX_SIZE>& arr,int size){
     int left{},right = size - 1;int tmp;
@@ -39,19 +33,13 @@ void rotateArray(std::array<int,MAX_SIZE>& arr,int size,int steps){
     arr = result;
 }
 
+
 int findElement(std::array<int,MAX_SIZE>& arr,int size,int value){
-    //try{
         for(int index{};index<size;index++)
             if(arr[index] == value) return index;
         throw "The value could not be found ";
-    //}
-
-/*
-    catch(std::string error){
-        std::cout << error << std::endl;
-    }
-*/
 }
+
 
 void sortArray(std::array<int,MAX_SIZE>& arr,int size){
     if (size==0) return;
