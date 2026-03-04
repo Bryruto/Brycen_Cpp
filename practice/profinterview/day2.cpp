@@ -1,5 +1,7 @@
 #include <string>
+#include <iostream>
 
+//this is the car class has holds license plates, position in lane , seep of the car. you can set and get any of these and also use the < to compare
 class Car{
     std::string lplate;
     int position;
@@ -21,8 +23,16 @@ class Car{
 
 };
 
+//given array of car
+/*
+use 2 loop the till a condition is false
+    inside loop check if curr value less than next if so swap positions
+return sorted array
+*/
+
+void display(Car*,int); 
 int main(){
-    Car arr[]= {Car("value",0,58),Car("some",1,29), Car("value",2,58),Car("some",3,29),Car("value",4,58),Car("some",5,29)};
+    Car arr[]= {Car("value",0,58),Car("some",1,2), Car("value",2,582),Car("some",3,29),Car("value",4,52),Car("some",5,29)};
     int size = sizeof(arr)/sizeof(arr[0]);
 
     bool flip;
@@ -39,5 +49,12 @@ int main(){
             }
         }
     }while(flip);
+
+    display(arr,size);
+}
+
+void display(Car* array,int size){
+    for(int index{};index < size;index++)
+        std::cout << array[index].get_speed()<< std::endl;
 }
 

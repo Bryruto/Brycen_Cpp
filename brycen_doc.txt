@@ -1808,8 +1808,11 @@ brycen's docs
                 }
     23 virtual Functions
         virtual functions allow us to overide methods in subclasses
+        virtual functions do dynamic dispatch which compile is typically implemented by a v table
+            a v table is a table the contains a mapping for all the virtural functions
         
-
+        runtime cost 1more member pointer in base class and must iterate v table so loose time complexity to 
+        
         example
             example 1
                 #include <iostream>
@@ -1842,13 +1845,14 @@ brycen's docs
                     std::cout << entity->GetName() << std::endl;
                 }
             
-            example 2
+            example 2 virtual is in here
                     #include <iostream>
                     #include <string>
 
                     class Entity{
                         public:
-                            std::string GetName(){return "Entitity";}
+                            virtual std::string GetName(){return "Entitity";}// now program will have a v table so if its overwritten
+                                                                                it can point to the correct function 
                     };
 
                     class Player : public Entity{
@@ -1857,7 +1861,9 @@ brycen's docs
                         public:
                             Player(const std::string& name):m_Name(name) {}
 
-                            std::string GetName(){return m_Name;}
+                            std::string GetName() override {return m_Name;}// override is not a must but helps and you should do it 
+                                                                            will give error if function in parent is not virtual
+                                                                            and makes it easy to read
                     }; 
 
                     void PrintName(Entity* entity)
@@ -1871,8 +1877,98 @@ brycen's docs
                         PrintName(e)
 
                         Player* p = new Player("cherno");
-                        PrintName(p);  
+                        PrintName(p);  //this will print an entity because printName takes an entity argument
+                                        unless you add virtual
                     }
+    24 interfaces
+        pure virtual functions define a function in a base class so that you can call in sub class that dont have implementation
+        this will force sub classes to implement it
+
+        interface - a class that only has unimplemented methods uses as well a template of sort  
+
+        example 1 
+            #include <iostream>
+            #include <string>
+
+            class Entity{
+                public:
+                    virtual std::string GetName() = 0; //this makes methods pure virtual functions
+                                                        must be implemented in the sub class
+                                                        this also means you cant have an instace of this anymore
+            };                  
+
+            class Player : public Entity{
+                private:
+                    std::string m_Name;
+                public:
+                    Player(const std::string& name):m_Name(name) {}
+
+                    std::string GetName() override {return m_Name;}//would not work unless this is here
+
+            }; 
+
+            void PrintName(Entity* entity)
+            {
+                std::count << entity->GetName() << std::endl;
+            }
+
+            int main()
+            {   
+                Entity* e = new Entity();
+                PrintName(e)
+
+                Player* p = new Player("cherno");
+                PrintName(p); 
+            }
+        example 2 
+            #include <iostream>
+            #include <string>
+
+            class Printable // format class of pure virtual function class
+            {
+                Public:
+                  virtual std::string GetClassName() = 0;  
+            };
+
+            class Entity: public Printable{
+                public:
+                    std::string GetClassName() override {return "Entity";}
+            };                  
+
+            class Player : public Entity,Printable{// dont add printable here because we allready have it but you can do 
+                                                    this to have more then one perent class
+                private:
+                    std::string m_Name;
+                public:
+                    Player(const std::string& name):m_Name(name) {}
+
+                    std::string GetClassName() override {return "player";}
+
+            }; 
+
+            class A:public Printable{
+                public: 
+                    std::string GetClassName() override {return "A";}
+            };
 
 
+            void Print(Printable*  obj){//can take any calls and will look for the Print in it and will force you to add one
+                std::cout << obj->GetClassName() << std::endl;
+            }
 
+            void PrintName(Entity* entity)
+            {
+                std::count << entity->GetName() << std::endl;
+            }
+
+            int main()
+            {   
+                Entity* e = new Entity();
+                Print(e);
+
+                Player* p = new Player("cherno");
+                Print(p);
+
+                Print(new A); // will give you a A 
+                // this is a memory leak so add destructor if you do this
+            }
