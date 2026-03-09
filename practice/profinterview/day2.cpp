@@ -11,6 +11,8 @@ class Car{
         Car(){}
         Car(std::string l,int p,int s):lplate(l),position(p),speed(s){}
 
+        ~Car(){}
+
         void set_lp(std::string lp){lplate = lp;}
         void set_pos(int pos){position = pos;}
         void set_speed(int sp){speed = sp;}
@@ -23,38 +25,29 @@ class Car{
 
 };
 
-//given array of car
-/*
-use 2 loop the till a condition is false
-    inside loop check if curr value less than next if so swap positions
-return sorted array
-*/
 
-void display(Car*,int); 
-int main(){
-    Car arr[]= {Car("value",0,58),Car("some",1,2), Car("value",2,582),Car("some",3,29),Car("value",4,52),Car("some",5,29)};
+int main(){ 
+    Car* arr[]= {new Car("adljo2",0,4),new Car("adljo2",1,30),new Car("adljo2",2,60)};
+
     int size = sizeof(arr)/sizeof(arr[0]);
 
     bool flip;
     do{
         flip = false;
         for (int i{0};i < size-1;i++){
-            if (arr[i] < arr[i+1]){
-                Car tmp = arr[i];
+            if (arr[i]->get_speed()<arr[i+1]->get_speed()){
+                Car* tmp = arr[i];
                 arr[i] = arr[i+1];
                 arr[i+1] = tmp;
-                arr[i].set_pos(i);
-                arr[i+1].set_pos(i+1);
+                (*arr[i]).set_pos(i);
+                arr[i+1]->set_pos(i+1);
                 flip = true;
             }
         }
     }while(flip);
 
-    display(arr,size);
-}
+    for(int i{};i< size;i++)
+        std::cout << arr[i]->get_speed()<< std::endl;
 
-void display(Car* array,int size){
-    for(int index{};index < size;index++)
-        std::cout << array[index].get_speed()<< std::endl;
+    delete[] arr;
 }
-
