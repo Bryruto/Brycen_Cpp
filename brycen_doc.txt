@@ -1,3 +1,4 @@
+
 Brycen's c++ doc 
 
 git stuff 
@@ -1972,3 +1973,74 @@ brycen's docs
                 Print(new A); // will give you a A 
                 // this is a memory leak so add destructor if you do this
             }
+    25 visibility
+        who can class or use things
+        nothing to do with prformance 
+        
+        private 
+            class Entity{//private by default
+
+                int x,y;//only this class can use these variables
+                public:
+                    Entity():x(0),y(0){}
+
+                same as
+
+                private:
+                    int x,y;//only this class can use these variables
+                public:
+                    Entity():x(0),y(0){}
+                
+            }; 
+        
+            int main(){
+                Entity instance;
+                instance.x // this does not work
+
+                in this you would need a getter and or setter to use the data at all
+            
+            }
+        public
+            you can use the data anywhere
+            struct Entity{// public by default
+                    int x,y;//only this class can use these variables
+                    Entity():x(0),y(0){}
+                    
+
+                same as 
+
+                public:
+                    int x,y; 
+                    Entity():x(0),y(0){}
+            }; 
+        
+            int main(){
+                Entity instance;
+                instance.x // this does work
+            }
+        protected
+
+            lets you use the private members of classes before but not outside in main
+
+            class Entity{
+                protected:
+                    int x,y;
+                public:
+                    Entity():x(0),y(0){}
+            }; 
+
+
+            class Entity2 : public Entity{
+                public:
+                    Entity2(){
+                        x = 2
+                        y = 3 // this will work
+                    }
+
+
+            };
+            int main(){
+                Entity instance;
+                instance.x // this does not work
+            }
+    
