@@ -66,9 +66,9 @@ float standardDev(std::array<float, MAX_SIZE>& my_arr, int& length){
     if (length < 2)return 0.0f;
     float avg = average(my_arr,length);
     float sum{};
-    for(int index{};index < length; index++){
+    for(int index{};index < length; index++)
         sum += (my_arr[index]-avg)*(my_arr[index]-avg);
-    }
+        
     return std::sqrt(sum/(length-1));
 }
 
