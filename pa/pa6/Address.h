@@ -15,14 +15,16 @@ class Address{
         const std::string& getStreetName() const;
         const std::string& getCityName() const;
         const std::string& getStateName() const;
-        const size_t& ZipCode()const;
+        const size_t& getZipCode()const;
 
         void setStreetName(const std::string&);
         void setCityName(const std::string&);
         void setStateName(const std::string&);
-        void getZipCode(const size_t&);
+        void setZipCode(const size_t&);
 
         friend std::istream& operator>>(std::istream&,Address&);
         friend std::ostream& operator<<(std::ostream&,const Address);
+
+        std::string format(std::string&); 
 
 };
