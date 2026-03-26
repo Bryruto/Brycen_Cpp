@@ -3,7 +3,7 @@
 #include <ctime>
 #include "Date.h"
 
-class Pet{
+class Pet:Date{
     private:
         std::string name;
         Date DOB;
@@ -21,7 +21,7 @@ class Pet{
 
         void setPetName(const std::string&);
         void setPetDOB(const Date&);
-        void setPetType(const std::string&);
+        void setPetType(const int&);
         void setPetBreed(const std::string&);
 
         friend std::istream& operator>>(std::istream&,Pet&);
