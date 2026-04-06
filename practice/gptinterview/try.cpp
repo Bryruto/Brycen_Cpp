@@ -1,25 +1,35 @@
-//rule of five - if you need any of the 5 you should do all 5 - destructor, copy constructor, copy assignment operator, move constructor, or move assignment operator.
+/*
+Tamsk
+Sum all the numbers of a given array ( cq. list ), except the highest and the lowest element ( by value, not by index! ).
 
-//override 
+The highest or lowest element respectively is a single element at each edge, even if there are more than one with the same value.
 
-class Rectangle{
-    private:
-        int width;
-        int height;
-    public:
-        Rectangle(int w,int h):width(w),height(h){}
-        int get_width()const{return width;}
-        int get_height()const{return height;}
-        void set_width(int Width){width = Width;}
-        void set_height(int Height){height = Height;}
+Mind the input validation.
 
-        int area(){return height*width;}
-};
+Example
+{ 6, 2, 1, 8, 10 } => 16
+{ 1, 1, 11, 2, 3 } => 6
+*/
 
-class ColoredRectangle :public Rectangle{
-    private:
-        char* color;
-    public:
-        ColoredRectangle(int w, int h, char* c):Rectangle(w,h),color(c){}
-}; 
+#include<vector>
+#include <cassert>
+using namespace std;
 
+int main(){
+    Assert::That(sum({ 6, 2, 1, 8, 10 }), Equals(16));
+    Assert::That(sum({ 1, 1, 11, 2, 3 }), Equals(6));
+}
+
+int sum(vector<int> numbers)
+{
+    int max{},total{};
+    int min = numbers[0];
+     for(int& i:numbers){
+        max = (i > max)? i: max;
+        min = (i < min)? i: min;
+    
+        total+=i;
+    }
+
+    return total- max - min;m
+}
