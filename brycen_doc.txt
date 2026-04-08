@@ -2042,4 +2042,115 @@ brycen's docs
                 Entity instance;
                 instance.x // this does not work
             }
+
+
+
+28 strings how they work
     
+    string is text it can be 1 char or a paragraph 
+    a string is just an array of chars 
+    also a thing called a wide string with 2 bytes per char 
+
+
+    char are like letter symbols numbers 
+        char is 1 byte of memory good for memory buffer too
+        c++ is using ascii values 
+
+    ascii is char encoding
+
+
+    example 1
+        #include <iostream>
+        #include <string>
+        int main(){
+                char* name = "Cherno";
+                
+// people do const char* = "Cheron"; you can't change this way tho because strings are immutable to add you have to free up more memory and find a location for all of it
+                
+                char name2[] = {'c','h','e','r','n','o','\0'};
+
+//this is a pointer still a char pointer and is the same as the one above 
+with \0 being null you can also just put 0 that also means null
+
+                std::string name = "Cherno";//best way
+
+//this is a template version of an already made basic string class in c++ this is know as a template specialization.                              the templated parameter is a const char* = constent character pointer this needs #include <string>
+
+                std::string name = "cherno"+ "hello";
+
+//this does not work because you are using a const char* to do this you need to split it into lines like 
+
+                std::string name = "charno";
+                name += "hello";
+
+//this will work because the += is overloaded in the string class 
+
+                std::string name = std::string("cherno") + "hello";
+
+//this will also work you end with more copys tho so not the best just showing that it is possible
+            
+                bool contains = name.find("no") != std::string::npos;
+
+// this is how you find a string/char in a string or with .find and npos is just no position in that string has that value find will return a position if you dont make it into a bool expression
+            }
+
+//at the end of a string there is a null termination character this tells you that string is ended. you use this to find the size
+
+//always pass strings by reference string cpy is not fast at all and can slow you program a lot so like void print(cosnt std::string&) almost always unless you want to change then do void print(std::string&) only
+
+
+
+
+29 string literals in c++
+    
+    a string literal is just "" with anything in the middle
+
+    example 1
+        #include <iostream>
+        #include <string>
+        #include <stdlib.h>
+
+        int main(){
+                "cheno\0" 
+
+//this is a string litteral with \0 for null termination \0 is read as only 1 char so you will always get one if you dont write it so strings are always one bigger then number of letter in this "cherno\0" there is 7 becuase c,h,e,r,n,o,\0 stops counting at \0 
+
+        char* name = ""
+
+        
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
