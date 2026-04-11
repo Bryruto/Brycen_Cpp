@@ -2104,6 +2104,9 @@ with \0 being null you can also just put 0 that also means null
 29 string literals in c++
     
     a string literal is just "" with anything in the middle
+    
+    string literals are always stored in read-only memory/unmutable 
+the program modifys strings by coping them and making a new varaiable no matter what you do or how you modify it VERY GOOD TO KNOW 
 
     example 1
         #include <iostream>
@@ -2116,16 +2119,123 @@ with \0 being null you can also just put 0 that also means null
 //this is a string litteral with \0 for null termination \0 is read as only 1 char so you will always get one if you dont write it so strings are always one bigger then number of letter in this "cherno\0" there is 7 becuase c,h,e,r,n,o,\0 stops counting at \0 
 
         char* name = ""
-
         
+// this is undefined behaivor saved as a const btw so you can change it some compilers will let you change it tho just dont use it if it does not work everywhere
+
+        char name[] = ""
+
+//this is how you would write the a string that you can change
+
+        strlen()
+
+// how you check the length in c strlen works like size() and length() on a string but it is a function not a method
+
+        const char* name = u8"cherno"; 2 or 4 bytes 
+        const wchar_t* name = L"cherno"; 2 or 4 bytes
+        const char16_t* name = u"cherno"; 2 bytes 
+        const char32_t* name = U"cherno"; 4 bytes
+
+// these are all the different types of chars you can you the compilers decide for you but if you want more control here is this 
+
+        std::string name0 = "cherno"s + " hello"; 
+
+//as of c++ 14 this works you need to add the s you can also use the prefexes that are above 
+
+        const char* name = R"(
+        line 1
+        line 2
+        line 3
+        )"
+
+// this is for multi line string you use the R prefex before R is RAW
+
+        const char* name = "Line1\n"
+        "Line2\n"
+        "Line3\n";
+
+// same thing as the line above just without R use R it makes life better
+ }
+
+
+
+
+
+30 ternary Operators 
+    just like an if satement 
+
+    example
+        int main)(){
+                s_Speed = (s_Level>5) ? 10 : 5;
+
+//this is a ternary operators i use these all the time its variable = expression then ? set to if true : set to if false
+
+                int s_speed;
+                if(s_Level > 5)
+                    s_Speed = 10;
+                else
+                    s_speed = 5;
+
+//this is what it looks like for normal and is a little slower becuase of something called return optomization  
+
+                s_Speed  = s_Level > 5 ? s_Level > 10 ? 15 : 10 : 5;
+
+//if both are true then 15 if 1st is true 10 and both not true 5 is my understanding 
             }
 
 
 
+31 const 
+    const is like visibility for class it like a promise you can't change the value of a const variable or stuff in a const class
 
+    example 
+        int main(){
+                const int a = 5;
+                a = 2;
+//it will cause an error if you try to change a 
+                
+                const int MAX_AGE = 90;
+                int* a = new int;
+                a = (int*)MAX_AGE;
+//this always you to work around a const variable you make a pointer on the heap then you can use that point and cast max_Age to a int point to access that value then you can change it without error 
 
+            const int* a  = new int;
+            int const* a = new int;
 
+//both of these are the same thing you can change point value/address but not contence if * in middle pointer const if at the end variable const if both you cant change either 
 
+            const int max_age = 90;
+            int* const a = new int;
+            *a = 2; 
+            a = (int*)&MAX_AGE;//this does not work anymore 
+// this makes it so the pointer itself a const you can change pointer value but you can change contents
+
+            const int* const = new int;
+
+//this means you cant change anything anymore 
+            }
+    
+
+    example in class
+        class Entity{
+            private:
+                int m_X, m_Y;
+            public:
+                int GetX() const{ //this allow you to make Entity a const
+                        return m_X;
+                    }
+            };
+        //makes it so you can't/should not modify private variables in that class read only method m_X = 2 would not work 
+        
+        void printentity(const &Entity e){//this is why you want it to be const
+                e.GetX() //this would not work if not for getter being const  
+
+            }
+//if you have a const class you cant call any method that is not const in other words you cant change anything in the class and const insures that
+        
+        private:
+            mutable int m_x;
+
+// using mutable will allow you to change your variables inside of a const method little work around probibly dont use this 
 
 
 
