@@ -1667,7 +1667,7 @@ brycen's docs
                 struct Vector3
                 {
                     float x,y,z;
-                };
+               
 
                 int main()
                 {
@@ -2235,7 +2235,649 @@ the program modifys strings by coping them and making a new varaiable no matter 
         private:
             mutable int m_x;
 
-// using mutable will allow you to change your variables inside of a const method little work around probibly dont use this 
+// using mutable will allow you to change your variables inside of a const method little work around probibly dont use this
+
+
+
+32 Mutable keyword
+    mutable really just means that you can change something 
+
+    example of mutable key word 
+        #include <iosteam>
+        #include <string> 
+
+        class Entity{
+                private:
+                    std::string m_Name;
+                Public:
+                    const std::string& GetName() const{return m_Name;}
+            };
+        
+            
+            int main(){
+                    const Entity e;
+                    e.GetName();
+                }
+//with this you have a const Entity meaning you can only use const methods because const means you cant change 
+        
+     class Entity{
+                private:
+                    std::string m_Name;
+                    int m_Debug{};
+                Public:
+                    const std::string& GetName() const{
+                            m_DebugCount++;
+                            return m_Name;
+                        }
+            };
+            int main(){
+                    const Entity e;
+                    e.GetName();
+                }
+//as you can see in the private variable i now have m_Debug i but this will not work for my program either because i can't change variable in the class 
+
+//you may thing just remove const from public like 
+                 Public:
+                    const std::string& GetName(){
+                            m_DebugCount++;
+                            return m_Name;
+                        }
+
+// but this still does not work because not you cant even call the method with a const instance of the class 
+        
+        class Entity{
+                private:
+                    std::string m_Name;
+                    mutable int m_Debug{};//now it works 
+                Public:
+                    const std::string& GetName() const{
+                            m_DebugCount++;
+                            return m_Name;
+                        }
+            };
+            int main(){
+                    const Entity e;
+                    e.GetName();
+                }
+
+//so this is how you fix that you add mutable to the private variable so you can use and change them in constent methods by adding the key word mutable 
+            int main(){
+                    const Entity e;
+                    e.GetName();
+
+                    int x = 8;
+                    auto f = [=](){
+                            x++;
+                            std::cout << "Hello" << std::endl;
+                        }//lamda
+
+                    f();
+                }
+//dont really dont understand lamdas yet but from what i understand [] what is inside of this is what you are passing to the lamda [&x] this is by reference [x] this is by value [=] all by value [&] all by reference in this one i cant change any thing that is const in the lamda 
+
+
+             int main(){
+                    int x = 8;
+                    auto f = [=]()mutable{// difference is here 
+                            x++;
+                            std::cout << "Hello" << std::endl;
+                        }//lamda
+
+                    f();
+                }
+
+//mutable here will allow you to change the value 
+
+33 create/instantiate objects 
+    all classes must has at least 1 byte of memory no matter what 
+    when making a object you have 2 choices for memory stack or heap there are other parts but 
+
+    stack has an automatic life span so it allocates and frees itself without you doing anything
+
+    heap will hold the memory you allocates forever until you free decide to free it 
+
+    example for stack
+        class Entity{
+            private:
+                std::string m_Name;
+            public:
+                Entity() : m_Name("Unknown"){}
+                Entity(const string& name) : m_Name(name) {}
+
+                const std::string& GetName() const{return m_Name;}
+
+            };
+
+            int main(){
+                Entity entity; // Entity entity("cherno"); also works 
+                std::cout << entity.GetName() << std::endl;
+                }
+//this is on the stack you almost always want what ever you do to be on the stack becuase this is the fastest and "" managed why "" 
+
+    example heap
+        //why use the heap the heap is used when you have a program that makes something and you want that something to stay updated always even when program is not running
+     class Entity{
+            private:
+                std::string m_Name;
+            public:
+                Entity() : m_Name("Unknown"){}
+                Entity(const string& name) : m_Name(name) {}
+
+                const std::string& GetName() const{return m_Name;}
+
+            };
+
+            int main(){
+                Entity entity("cherno");
+                e = &entity;
+                }
+//after program ends the entity with the name cherno is gone you have to make it again and loose all the data // also the stack is small usually like 1 mega byte 
+
+     class Entity{
+            private:
+                std::string m_Name;
+            public:
+                Entity() : m_Name("Unknown"){}
+                Entity(const string& name) : m_Name(name) {}
+
+                const std::string& GetName() const{return m_Name;}
+
+            };
+
+            int main(){
+                Entity* e;{
+                    Entity* entity = new Entity("cherno");
+                    e = entity; 
+                }
+                
+                delete e;
+                }
+// allocating on the heap takes longer and makes you manually free the memory {} are controlling the life time in this example 
+
+34 Implicit conversion and the Explicit Keyword
+    implicit mean you are doing something automaticly
+    
+    not super important but good to know for when you see it try not to use it yourself 
+
+    example
+        class Entity{
+                private:
+                    std::string m_Name;
+                    int m_Age;
+                public:
+                    Entity(const std::string& name): 
+                        m_Name(name),m_Age(-1) {}
+
+                    Entity(int age)
+                        : m_Name("Unknown"),m_Age(age) {} 
+            };
+
+
+        int main()
+        {
+                Entity a("Cherno");  
+                Entity b(22); 
+
+                or 
+
+                Entity a = Entity("Cherno");
+                Entity b = Entity(22);
+
+                or 
+
+                Entity a = "Cherno";//Implicit conversion 
+                Entity b = 22; 
+            }
+
+//everyone of the constructors do the same thing 
+    example 2
+        class Entity{
+                private:
+                    std::string m_Name;
+                    int m_Age;
+                public:
+                    Entity(const std::string& name): 
+                        m_Name(name),m_Age(-1) {}
+
+                    Entity(int age)//why this works
+                        : m_Name("Unknown"),m_Age(age) {} 
+            };
+        
+        void printEntity(const Entity& entity){
+                //printing stuff
+            }
+    
+        int main(){
+                PrintEntity(22);//implicit conversion
+                printEntity("cherno"); //doesnt work 2 conversion 
+                printEntity(std::string("cherno"));//this works
+                printEntity(Entity("cherno"))//this works 
+            }
+//looks crazy but this works to the 22 gets sent in then set to the constructor taking 1 int its constructed and set to const 
+
+//as you can see if you want to do this with the string you must make it a string first because its a char* with just "" so you can either make it a string of do construction before sending it 
+
+
+    example 2
+        class Entity{
+                private:
+                    std::string m_Name;
+                    int m_Age;
+                public:
+                    explicit Entity(const std::string& name): 
+                        m_Name(name),m_Age(-1) {}
+
+                    explicit Entity(int age)//why this works
+                        : m_Name("Unknown"),m_Age(age) {} 
+            };
+        
+        void printEntity(const Entity& entity){
+                //printing stuff
+            }
+    
+        int main(){
+                PrintEntity(22);//fail
+                printEntity("cherno"); //fail 
+                printEntity(std::string("cherno"));//fail
+                printEntity(Entity("cherno"))//pass 
+            }
+
+//the explicit keyword makes it so you cant use an implicit conversions the last print does still work because i am making it a entity before 
+
+
+35 the this keyword
+    this keyword can only be used inside a method
+    this is a pointer to the current object instance 
+        Entity* e = this;
+    this is just that you dont have to write it tho
+
+
+    example
+        class Entity{
+                public:
+                    int x,y;
+
+                Entity(int x,int y){
+                        x = x;
+                        y = y;
+                    }
+            };
+
+//the problem is that if you have the same name as the arguments then they will just use the arguments even if you want the member variable 
+
+        class Entity{
+                public:
+                    int x,y;
+
+                Entity(int x,int y){
+                        this->x = x; 
+                        this->y = y;
+
+                        or 
+
+                        (*this).x = x;
+                        (*this).y = y; 
+                    }
+            };
+
+//with the this keyword i can dereference and call the member variable a set it to the arguments with no problem 
+
+         class Entity{
+                public:
+                    int x,y;
+
+                Entity(int x,int y){
+                        this->x = x; 
+                        this->y = y;
+
+                        or 
+
+                        (*this).x = x;
+                        (*this).y = y; 
+                    }
+
+                int getX() const
+                {
+                        Entity* e = this;
+                        e ->x = 5; 
+                        return x;
+                    }
+            // will this would not work unless x was mutable
+            };
+
+//to note that if you call this in a const method is (const Entity* const name) which is just say this will just show you what is in there you cant change it tho 
+
+
+        void PrintEntity(Entity* e);
+        class Entity{
+                public:
+                    int x,y;
+
+                Entity(int x,int y){
+                        this->x = x; 
+                        this->y = y;
+                        
+                        PrintEntity(this);// change notes below
+                    }
+            };
+
+        void PrintEntity(Entity* e){
+                //printing stuff
+            }
+
+        //you use printEntity with this you are just passing in the entity pointer you can also pass by reference but you need to dereference the this pointer before you pass it in like (printEntity(*this);)
+
+
+
+36 object lifetime
+    think it like a data structure where things are added on top of the stuff and to get to the middle you must remove what what before 
+    example 
+        class Entity{
+                public:
+                    Entity(){
+                           std::cout << "Entity made"<< std::endl;
+                        }
+
+                    ~Entity(){
+                            std::cout << "Entity deleted" << std::endl;
+                        }
+
+            };
+
+            int main(){
+                Entity e;
+
+                {
+                        Entity* b = new Entity; 
+                    }
+            }
+// Entity e; is on the stack and will be made and deleted without you doing anything conclusion if you get memory from the stack makes and deletes for you
+
+//Entity* b = new Entity; never deletes it is still there the os will clean it up when you close the program but THIS IS BAD without protection which you will not always have 
+
+        class Entity{
+                public:
+                    Entity(){std::cout << "Entity made"<< std::endl;}
+
+                    ~Entity(){std::cout << "Entity deleted" << std::endl;}
+
+            };
+            
+            class ScopedPtr{// this is a smart pointer/unique pointer 
+                    private:
+                        entity* m_Ptr;
+                    public:
+                        ScopedPtr(Entity* ptr):m_Ptr(ptr){}
+
+                        ~ScopedPtr(){delete m_Ptr;}
+                };
+
+            int main(){
+                    {
+                    ScopedPtr* e = new Entity();
+                    }
+                }
+            
+//so the smart pointer will wrap over the Entity and when the program ends the smart pointer will be deleted because it was made on the stack which will delete every thing inside it including the Entity
+
+
+37 smart pointers 
+    a smart pointer is a way to automate the creation and deletion of a anything on the heap
+
+    you should probably always use smart pointers makes it feel like your on the stack and much less likely for memory leaks 
+
+    unique_ptr
+        a unique pointer is a scoped pointer meaning if you leave the scope it was declared in you delete the pointer / the reason it is called a unique pointer is that you cant have 2 pointers pointing to the same memory if you do and the memory is freed now you have a pointer pointing to memory not in use which is bad. you can not copy unique points because of this 
+
+
+        example 
+            int main(){
+                    {
+                    std::unique_ptr<Entity> entity(new Entity());
+                    //or 
+                    std::unique_ptr<Entity> entity = std::make_unique<Entity>();
+
+                    entity->print();// how you use 
+                        }
+                }
+//the 2nd way is preferred you will not be able to copy 
+
+    shared_ptr 
+        the way it this is made is based on your system but most use reference counting which is the counting of how many things are pointing at that location when it hits 0 then it gets deleted 
+
+
+        int main(){
+            {
+                    std::shared_ptr<Entity> sharedEntity = std::make_shared<Entity>();
+                    // you can also do it like 
+                    std::shared_ptr<Entity> entity(new Entity());
+                    // but you dont want to do this 
+                }
+            }
+
+//if you called new like in the 2nd one you allocate it 2 times a shared pointer has a reference block with also being allocated so doing make is much better so it can make it all at once 
+
+    weak_ptr 
+        int main(){
+                std::weak_ptr<Entity> weak = std::make_weak<Entity>();
+            }
+
+// this is used with the shared pointer and its just like a little checker does not increase the reference count just checks if it is there or not 
+
+
+
+38 copying and copy constructors
+    try not to copy to much unless you have to it slows the program down a lot 
+
+    example
+        int main(){
+                int a = 2; 
+                int b = a; 
+                b = 3;
+            }
+
+// a is still 2 they have 2 separate locations 
+
+        struct Vector2{
+                float x,y;
+            };
+
+        int main(){
+                Vector2 a = {2, 3};
+                Vector2 b = a;
+
+                b.x = 5;
+            }
+//this will also work you just change what is at b 
+
+        struct Vector2{
+            float x,y; 
+        };
+
+        int main(){
+                Vector* a = new Vector2();
+                Vector* b = a;
+                b->x = 2; 
+            }
+
+//now you are copying the pointer so now you have 2 pointers looking at the same spot if you dereference and change b it will also change for a because 2 pointers looking at the same spot = is always copying the value
+
+        class String{
+                private:
+                    char* m_Buffer;
+                    unsigned int m_size;
+                public:
+                    String(const char* string){
+                            m_Size= strlen(string);
+                            m_Buffer = new char[m_size + 1];
+                            memcpy(m_buffer,string, m_size);
+                            m_Buffer[m_size] = 0;
+                        }
+
+                    ~String(){
+                                delete[] m_Buffer;
+                            }
+                    
+                    char& operator[](unsigned int index){
+                            return m_Buffer[index];
+                        }    
+
+                    friend std::ostream& operator<<(std::ostream& stream, const string& )
+
+
+            }; 
+
+
+            std::ostream& operator<<(std::ostream& stream, const string& string){
+                    stream << string.GetBuffer;
+                    return stream; 
+                } 
+
+
+            int main(){
+                String string = "cherno";
+
+                String second = string;
+
+            }
+//this will crash your program because it makes a shallow copy because you make this two have the same memory location because it copies the pointer so when the program end it frees the memory 2 time which will crash 
+
+            int main(){
+                    String string = "Cherno";
+                    String second = string;
+
+                    second[2] ='a'; 
+                }
+
+//this will also still crash the program the only way to do this is to make a deep copy right now this is shallow 
+
+
+//this is a copy constructor makes a deep copy meaning you copy the object in its entirety this is provided for you but its made to just add the exact memory information into this new variable so just making a new variable to access the same memory 
+
+
+            String(const String& other): m_Buffer(other.m_Buffer),m_size( other.m_size){}
+
+// this is what c++ will automatically give you 
+
+            String(const String& other) = delete;
+
+//this is how you prevent copying this is what unique pointers do 
+
+            String(const String& other):m_size(other.m_size){
+                    m_Buffer = new char[m_size + 1];
+                    memcpy(m_Buffer,other.m_Buffer,m_size + 1); 
+                }
+
+//this is how you would make a deep copy in this scenario 
+
+            void print(string s){
+                    std::cout<< s << std::endl;
+                }
+
+            int main(){
+                    String string = "Cherno";
+                    String second = string;
+
+                    second[2] ='a';
+                    print(string);
+                    print(second);
+                }
+
+//this would be very bad because you are passing it value this will copy not once not twice but 3 times before printing 
+
+            void print(const string& s){std::cout << s << std::endl;}
+
+//this is how you will need to pass by reference and const if you are not changing the values.
+
+//this is why its a lot better for the programs speed and space to pass by const reference every time 
+
+39 dynamic Array vector
+    vector is just a dynamic array it should not be called a vector but its is so unlike an array this can resize so you dont need to give it a size this is made as a double linked list. when you exceed the size it just makes a bigger one in a different spot in memory and copies everything over and then deletes the old one. not the best for speed
+
+        example 
+            #include <vector> 
+            #include <iostream>
+            struct Vertex {
+                    float x,y,z;
+                };
+
+            std::ostream& operator <<(std::ostream& stream, const Vertex vertex){
+                    stream << vertex.x ", " << vertex.y << ", " << vertex.z << std::endl; 
+                    return stream;
+                }
+
+            int main(){
+                    std::vector<Vertex> vertices;
+                    vertices.push_back();
+                    vertices.push_back();
+
+                    for(int i{};i < vertices.size();i++)
+                        std::cout<<vertices[i] << std::endl;
+
+                    for(Vertex& v : vertices)
+                        std::cout << v << std::endl;
+                    
+                    // always pass this by reference so you dont copy every variable 
+
+                    vertices.clear();//empty array
+                    vertices.erase(vertices.begin() + 2);//remove by index
+                    vertices.find(value);// find index
+                }
+
+
+//try to keep as object because dynamic arrays are still stored in memory continuously but if you want to move then it becomes a problem and pointers are better ? i feel like pointer are always better if in a vector but idk much 
+
+        
+
+40 best use of vector
+41 local static
+42 using libraries 
+43 dynamic libraries 
+44 making libraries and working with
+45 multiple return values
+46 templates again 
+47 stack vs heap 
+48 macros 
+49 auto keyword 
+50 static arrays style arrays 
+51 function pointers 
+52 lambdas 
+53 namespaces 
+54 threads 
+55 timing 
+56 multidimensional arrays 
+57 type punning 
+58 unions 
+59 virtual destructors 
+60 casting 
+61 breakpoints
+62 safety modern c++ 
+63 precompiled headers 
+64 dynamic casting 
+65 benchmarking 
+2 or 3 of these a day time you make it here 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
